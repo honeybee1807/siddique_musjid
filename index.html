@@ -1,0 +1,3403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<!--
+  Siddique Charitable Foundation NPC
+  Official Website — Newcastle, KwaZulu-Natal
+
+  Developed by Olideen Technologies
+  https://olideentech.co.za
+
+  Developer: Lubnah Olideen
+  Built: 2026
+  Stack: HTML5 · CSS3 · Vanilla JavaScript · GSAP
+-->
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="Siddique Charitable Foundation NPC — building a Musjid and running the Kwamathukuza Madressa in Newcastle, KwaZulu-Natal. Ilm For Today, Imaan For Eternity." />
+<title>Siddique Charitable Foundation NPC · Newcastle, KZN</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800&family=Cormorant+Garamond:ital,wght@0,400;0,700;1,400;1,700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js" defer></script>
+
+<style>
+/*
+  Siddique Charitable Foundation NPC — Stylesheet
+  Olideen Technologies · olideentech.co.za
+  Newcastle, KZN · 2026
+
+  Table of contents:
+    00. Custom properties & reset
+    01. Base & typography
+    02. Navigation
+    03. Hero
+    04. About
+    05. Musjid project
+    06. Progress tracker
+    07. Contribute
+    08. Madressa
+    09. Timeline
+    10. Leadership
+    11. Hadith interlude
+    12. Contact
+    13. Footer
+    14. Utilities & animations
+    15. Responsive overrides
+*/
+
+/* ----------- 00. custom properties & reset ----------- */
+:root {
+  /* — primary palette — */
+  --clr-purple-deep:   #2D1B5E;
+  --clr-purple-dark:   #1C0F3F;
+  --clr-purple-mid:    #3D2570;
+  --clr-purple-light:  #5B3A8A;
+
+  /* — accent palette — */
+  --clr-mint:          #3EC9A7;
+  --clr-mint-bright:   #4DCB8A;
+  --clr-mint-muted:    #2A9E85;
+
+  /* — neutral palette — */
+  --clr-bg-light:      #F0FAF6;
+  --clr-white:         #FFFFFF;
+  --clr-dark:          #1A1A2E;
+  --clr-text-muted:    rgba(255,255,255,0.6);
+  --clr-border-light:  rgba(62,201,167,0.2);
+
+  /* — spacing — */
+  --space-xs:   0.5rem;
+  --space-sm:   1rem;
+  --space-md:   2rem;
+  --space-lg:   4rem;
+  --space-xl:   6rem;
+  --space-section: clamp(5rem, 10vw, 9rem);
+
+  /* — radii — */
+  --radius-sm:  6px;
+  --radius-md:  12px;
+  --radius-lg:  20px;
+  --radius-pill: 999px;
+
+  /* — fonts — */
+  --ff-display:  'Barlow Condensed', sans-serif;
+  --ff-brand:    'Cormorant Garamond', serif;
+  --ff-body:     'Montserrat', sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  font-family: var(--ff-body);
+  font-weight: 300;
+  color: var(--clr-dark);
+  background: var(--clr-white);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+img { max-width: 100%; display: block; }
+
+button { font-family: inherit; cursor: pointer; }
+
+a { color: inherit; }
+
+/* hide pre-animation elements until gsap is ready */
+.js-hidden { opacity: 0; }
+
+/* ----------- 01. base & typography ----------- */
+h1, h2, h3, h4, h5, h6 { margin: 0; line-height: 1.1; }
+
+p { margin: 0; }
+
+.eyebrow {
+  font-family: var(--ff-body);
+  font-weight: 600;
+  font-size: 0.7rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.eyebrow::before {
+  content: "";
+  width: 32px;
+  height: 2px;
+  background: var(--clr-mint);
+}
+
+.section-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* ----------- 02. navigation ----------- */
+.scf-nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 clamp(1.5rem, 5vw, 4rem);
+  background: transparent;
+  transition: background 0.3s ease, backdrop-filter 0.3s ease, height 0.3s ease;
+}
+.scf-nav--scrolled {
+  background: var(--clr-purple-dark);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+.scf-nav__logo {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  text-decoration: none;
+}
+.scf-nav__logo-mark { width: 40px; height: 40px; flex-shrink: 0; }
+.scf-nav__logo-text { display: flex; flex-direction: column; line-height: 1; }
+.scf-nav__brand {
+  font-family: var(--ff-brand);
+  font-weight: 700;
+  font-size: 1.35rem;
+  color: white;
+  letter-spacing: 0.08em;
+  line-height: 1;
+}
+.scf-nav__sub {
+  font-family: var(--ff-body);
+  font-weight: 300;
+  font-size: 0.55rem;
+  color: var(--clr-mint);
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  margin-top: 3px;
+  line-height: 1;
+}
+
+.scf-nav__links {
+  display: none;
+  align-items: center;
+  gap: 2rem;
+  list-style: none;
+  padding: 0; margin: 0;
+}
+.scf-nav__links a {
+  font-family: var(--ff-body);
+  font-weight: 600;
+  font-size: 0.8rem;
+  color: white;
+  letter-spacing: 0.05em;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+.scf-nav__links a:hover { color: var(--clr-mint); }
+
+.scf-nav__cta {
+  background: var(--clr-mint);
+  color: var(--clr-dark);
+  font-family: var(--ff-body);
+  font-weight: 600;
+  font-size: 0.8rem;
+  padding: 0.55rem 1.4rem;
+  border-radius: var(--radius-pill);
+  text-decoration: none;
+  transition: all 0.2s ease;
+  border: none;
+  white-space: nowrap;
+}
+.scf-nav__cta:hover {
+  background: var(--clr-mint-muted);
+  transform: translateY(-1px);
+}
+
+.scf-nav__right {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.scf-nav__toggle {
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: var(--radius-sm);
+  gap: 4px;
+  padding: 0 9px;
+}
+.scf-nav__toggle span {
+  height: 2px;
+  background: white;
+  border-radius: 1px;
+  display: block;
+}
+.scf-nav__toggle[aria-expanded="true"] span:nth-child(1) {
+  transform: translateY(6px) rotate(45deg);
+}
+.scf-nav__toggle[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+.scf-nav__toggle[aria-expanded="true"] span:nth-child(3) {
+  transform: translateY(-6px) rotate(-45deg);
+}
+.scf-nav__toggle span { transition: transform 0.3s ease, opacity 0.2s ease; }
+
+.scf-nav__overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--clr-purple-dark);
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2.5rem;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-12px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+.scf-nav__overlay.is-open {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+.scf-nav__overlay a {
+  font-family: var(--ff-display);
+  font-weight: 700;
+  font-size: 2rem;
+  color: white;
+  text-decoration: none;
+  letter-spacing: 0.05em;
+}
+.scf-nav__overlay a:hover { color: var(--clr-mint); }
+.scf-nav__overlay .scf-nav__cta { font-size: 0.95rem; padding: 0.85rem 2.2rem; }
+.scf-nav__overlay-close {
+  position: absolute;
+  top: 1rem; right: 1.25rem;
+  width: 44px; height: 44px;
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+/* ----------- 03. hero ----------- */
+.scf-hero {
+  position: relative;
+  height: 100vh;
+  min-height: 600px;
+  background: var(--clr-purple-deep);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.scf-hero__bg-pattern {
+  position: absolute;
+  inset: 0;
+  opacity: 0.06;
+  pointer-events: none;
+}
+.scf-hero__vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, transparent 30%, rgba(28,15,63,0.7) 100%);
+  pointer-events: none;
+}
+.scf-hero__content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 0 clamp(1rem, 5vw, 4rem);
+  max-width: 1100px;
+  margin: 0 auto;
+  width: 100%;
+}
+.scf-hero__bismillah {
+  font-family: var(--ff-brand);
+  font-weight: 400;
+  font-size: clamp(1rem, 2.5vw, 1.3rem);
+  color: var(--clr-mint);
+  letter-spacing: 0.15em;
+  margin: 0 0 0.4rem;
+}
+.scf-hero__reg {
+  font-family: var(--ff-body);
+  font-weight: 300;
+  font-size: 0.7rem;
+  color: rgba(255,255,255,0.45);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin: 0 0 2rem;
+}
+.scf-hero__headline {
+  font-family: var(--ff-display);
+  font-weight: 800;
+  font-size: clamp(3.2rem, 9vw, 8rem);
+  line-height: 0.95;
+  color: white;
+  margin: 0;
+}
+.scf-hero__headline--accent {
+  color: var(--clr-mint);
+  margin: 0 0 1.5rem 0;
+}
+.scf-hero__sub {
+  font-family: var(--ff-body);
+  font-weight: 300;
+  font-size: clamp(0.9rem, 2vw, 1.15rem);
+  color: rgba(255,255,255,0.75);
+  max-width: 540px;
+  margin: 0 auto 2.5rem;
+  line-height: 1.6;
+}
+.scf-hero__ctas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+}
+.scf-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.85rem 2.2rem;
+  border-radius: var(--radius-pill);
+  font-family: var(--ff-body);
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-decoration: none;
+  transition: all 0.25s ease;
+  border: none;
+  cursor: pointer;
+  min-height: 44px;
+}
+.scf-btn--primary {
+  background: var(--clr-mint);
+  color: var(--clr-dark);
+}
+.scf-btn--primary:hover {
+  background: var(--clr-mint-muted);
+  transform: translateY(-2px);
+}
+.scf-btn--ghost {
+  background: transparent;
+  color: white;
+  border: 2px solid rgba(255,255,255,0.4);
+}
+.scf-btn--ghost:hover {
+  border-color: white;
+  transform: translateY(-2px);
+}
+
+.scf-hero__marquee {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 40px;
+  background: var(--clr-mint);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  z-index: 2;
+}
+.scf-hero__marquee-track {
+  display: flex;
+  gap: 3rem;
+  white-space: nowrap;
+  animation: marqueeScroll 22s linear infinite;
+  padding-left: 3rem;
+}
+.scf-hero__marquee-track > span {
+  font-family: var(--ff-body);
+  font-weight: 600;
+  font-size: 0.75rem;
+  color: var(--clr-dark);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+@keyframes marqueeScroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+/* ----------- 04. about ----------- */
+.scf-about {
+  background: var(--clr-bg-light);
+  padding: var(--space-section) clamp(1.5rem, 6vw, 5rem);
+}
+.scf-about__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 3rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.scf-about__heading {
+  font-family: var(--ff-display);
+  font-weight: 800;
+  font-size: clamp(2.2rem, 5vw, 3.8rem);
+  color: var(--clr-purple-deep);
+  line-height: 1.05;
+  margin: 1rem 0 1.5rem;
+}
+.scf-about__purpose {
+  font-family: var(--ff-body);
+  font-weight: 300;
+  font-size: 1rem;
+  line-height: 1.8;
+  color: var(--clr-dark);
+  margin-bottom: 1.5rem;
+  max-width: 560px;
+}
+.scf-about__block {
+  border-left: 3px solid var(--clr-mint);
+  padding-left: 1rem;
+  margin-bottom: 1.5rem;
+  max-width: 560px;
+}
+.scf-about__block-label {
+  font-family: var(--ff-display);
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--clr-purple-deep);
+  letter-spacing: 0.15em;
+  margin-bottom: 0.4rem;
+}
+.scf-about__block-text {
+  font-family: var(--ff-body);
+  font-style: italic;
+  font-weight: 300;
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: var(--clr-dark);
+  opacity: 0.85;
+  margin: 0;
+}
+
+.scf-about__hadith-card {
+  background: var(--clr-purple-deep);
+  border-radius: var(--radius-lg);
+  padding: 2.5rem;
+  position: relative;
+  overflow: hidden;
+  align-self: start;
+}
+.scf-about__hadith-card .pattern-fill {
+  position: absolute;
+  inset: 0;
+  opacity: 0.08;
+  z-index: 0;
+}
+.scf-about__hadith-card > * { position: relative; z-index: 1; }
+.scf-about__hadith-quote-mark {
+  position: absolute;
+  top: 1rem;
+  left: 1.5rem;
+  font-family: var(--ff-brand);
+  font-weight: 700;
+  font-size: 5rem;
+  color: var(--clr-mint);
+  opacity: 0.4;
+  line-height: 1;
+  z-index: 1;
+}
+.scf-about__hadith-text {
+  font-family: var(--ff-brand);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 1.2rem;
+  color: white;
+  line-height: 1.8;
+  margin: 1.5rem 0 1.5rem;
+}
+.scf-about__hadith-text strong {
+  font-weight: 700;
+  color: var(--clr-mint);
+  font-style: italic;
+}
+.scf-about__hadith-source {
+  font-family: var(--ff-body);
+  font-weight: 300;
+  font-size: 0.8rem;
+  color: var(--clr-mint);
+  letter-spacing: 0.1em;
+  margin-bottom: 2rem;
+}
+.scf-about__hadith-divider {
+  height: 1px;
+  background: var(--clr-border-light);
+  margin-bottom: 2rem;
+}
+.scf-about__hadith-followup {
+  font-family: var(--ff-body);
+  font-weight: 400;
+  font-size: 0.9rem;
+  line-height: 1.7;
+  color: rgba(255,255,255,0.8);
+  margin: 0;
+}
+
+.scf-about__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 3rem;
+}
+.scf-about__chip {
+  background: var(--clr-purple-deep);
+  border-radius: var(--radius-pill);
+  padding: 0.6rem 1.6rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--ff-display);
+  font-weight: 700;
+  font-size: 1rem;
+  color: white;
+}
+.scf-about__chip-icon { font-size: 0.95rem; }
+
+/* ----------- 05. musjid project ----------- */
+.scf-musjid {
+  background: var(--clr-purple-deep);
+  padding: var(--space-section) clamp(1.5rem, 6vw, 5rem);
+  position: relative;
+  overflow: hidden;
+  color: white;
+}
+.scf-musjid__pattern {
+  position: absolute;
+  inset: 0;
+  opacity: 0.05;
+  pointer-events: none;
+}
+.scf-musjid > .section-container { position: relative; z-index: 1; }
+
+.project-badge {
+  font-family: var(--ff-body);
+  font-weight: 600;
+  font-size: 0.7rem;
+  color: var(--clr-mint);
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 0.75rem;
+}
+.project-badge::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  background: var(--clr-mint);
+  display: inline-block;
+}
+
+.scf-musjid__heading {
+  font-family: var(--ff-display);
+  font-weight: 800;
+  font-size: clamp(3rem, 7vw, 6rem);
+  color: white;
+  line-height: 1;
+  margin: 0 0 0.3rem;
+}
+.scf-musjid__location {
+  font-family: var(--ff-body);
+  font-weight: 300;
+  font-size: 1rem;
+  color: var(--clr-mint);
+  letter-spacing: 0.05em;
+  margin: 0 0 1.5rem;
+}
+
+.scf-musjid__hadith {
+  border-left: 4px solid var(--clr-mint);
+  padding-left: 1.5rem;
+  margin: 0 0 2.5rem;
+  max-width: 760px;
+}
+.scf-musjid__hadith-quote {
+  font-family: var(--ff-brand);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 1.1rem;
+  color: rgba(255,255,255,0.85);
+  margin: 0 0 0.4rem;
+  line-height: 1.6;
+}
+.scf-musjid__hadith-source {
+  font-family: var(--ff-body);
+  font-weight: 300;
+  font-size: 0.75rem;
+  color: var(--clr-mint);
+  letter-spacing: 0.1em;
+}
+
+.scf-musjid__body {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 3rem;
+  margin-top: 1rem;
+}
+.scf-musjid__body-text {
+  font-family: var(--ff-body);
+  font-weight: 300;
+  font-size: 1rem;
+  line-height: 1.8;
+  color: rgba(255,255,255,0.85);
+  margin: 0 0 2.5rem;
+}
+
+/* phase tracker */
+.scf-musjid__phases {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  position: relative;
+}
+.phase-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  position: relative;
+  z-index: 1;
+}
+.phase-dot {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--ff-body);
+  font-weight: 600;
+  font-size: 0.8rem;
+  color: white;
+  box-sizing: border-box;
+}
+.phase-dot--done {
+  background: var(--clr-mint);
+  border: 3px solid var(--clr-mint);
+}
+.phase-dot--active {
+  background: var(--clr-purple-mid);
+  border: 3px solid var(--clr-mint);
+  animation: phasePulse 2s ease-in-out infinite;
+}
+.phase-dot--upcoming {
+  background: transparent;
+  border: 3px solid rgba(255,255,255,0.25);
+}
+@keyframes phasePulse {
+  0%,100% { box-shadow: 0 0 0 0 rgba(62,201,167,0.6); }
+  50%     { box-shadow: 0 0 0 10px rgba(62,201,167,0); }
+}
+
+.phase-item__body { display: flex; flex-direction: column; }
+.phase-item__label {
+  font-family: var(--ff-display);
+  font-weight: 700;
+  font-size: 0.9rem;
+  letter-spacing: 0.08em;
+  color: white;
+  line-height: 1.1;
+}
+.phase-item--upcoming .phase-item__label { color: rgba(255,255,255,0.5); }
+.phase-item__sublabel {
+  font-family: var(--ff-body);
+  font-weight: 300;
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+  color: var(--clr-mint);
+}
+.phase-item--upcoming .phase-item__sublabel { color: rgba(255,255,255,0.4); }
+.phase-item__chip {
+  display: inline-block;
+  font-family: var(--ff-body);
+  font-weight: 600;
+  font-size: 0.65rem;
+  padding: 0.2rem 0.8rem;
+  border-radius: var(--radius-pill);
+  margin-top: 0.5rem;
+  letter-spacing: 0.05em;
+  align-self: flex-start;
+}
+.phase-item--done .phase-item__chip {
+  background: rgba(62,201,167,0.2);
+  color: var(--clr-mint);
+}
+.phase-item--active .phase-item__chip {
+  background: rgba(62,201,167,0.1);
+  color: rgba(255,255,255,0.8);
+  border: 1px solid rgba(62,201,167,0.4);
+}
+.phase-item--upcoming .phase-item__chip {
+  background: rgba(255,255,255,0.05);
+  color: rgba(255,255,255,0.4);
+}
+
+/* fact cards */
+.scf-musjid__facts {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.fact-card {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid var(--clr-border-light);
+  border-radius: var(--radius-md);
+  padding: 1.5rem;
+}
+.fact-card__label {
+  font-family: var(--ff-body);
+  font-weight: 600;
+  font-size: 0.65rem;
+  color: var(--clr-mint);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: 0.4rem;
+}
+.fact-card__value {
+  font-family: var(--ff-display);
+  font-weight: 800;
+  font-size: 2rem;
+  color: white;
+  line-height: 1;
+  margin-bottom: 0.4rem;
+}
+.fact-card__value--accent { color: var(--clr-mint); }
+.fact-card__detail {
+  font-family: var(--ff-body);
+  font-weight: 300;
+  font-size: 0.8rem;
+  color: rgba(255,255,255,0.6);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+}
+.live-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--clr-mint);
+  animation: phasePulse 2s ease-in-out infinite;
+}
+
+/* ----------- 06. progress tracker ----------- */
+.scf-tracker {
+  background: var(--clr-dark);
+  padding: var(--space-section) clamp(1.5rem, 6vw, 5rem);
+  color: white;
+}
+.scf-tracker__heading {
+  font-family: var(--ff-display);
+  font-weight: 800;
+  font-size: clamp(2.5rem, 6vw, 5rem);
+  color: white;
+  margin-bottom: 0.5rem;
+  line-height: 1;
+}
+.scf-tracker__sub {
+  font-family: var(--ff-body);
+  font-weight: 300;
+  font-size: 1rem;
+  color: var(--clr-mint);
+  margin: 0 0 3.5rem;
+}
+
+.progress-rail {
+  background: rgba(255,255,255,0.08);
+  border-radius: var(--radius-pill);
+  height: 56px;
+  position: relative;
+  overflow: visible;
+  border: 1px solid rgba(255,255,255,0.1);
+  margin-bottom: 2.5rem;
+}
+.progress-fill {
+  width: 0%;
+  height: 100%;
+  border-radius: var(--radius-pill);
+  background: linear-gradient(90deg, var(--clr-mint) 0%, var(--clr-mint-bright) 100%);
+  position: absolute;
+  left: 0; top: 0;
+  min-width: 3px;
+  overflow: hidden;
+}
+.progress-fill::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.35) 50%, transparent 100%);
+  transform: translateX(-100%);
+  animation: shimmer 2.6s ease-in-out infinite;
+}
+@keyframes shimmer {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(200%); }
+}
+.progress-badge {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  color: var(--clr-purple-deep);
+  font-family: var(--ff-display);
+  font-weight: 800;
+  font-size: 1.1rem;
+  padding: 0.3rem 0.8rem;
+  border-radius: var(--radius-pill);
+  border: 3px solid var(--clr-dark);
+  white-space: nowrap;
+}
+
+.scf-tracker__counters {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+.counter-block { display: flex; flex-direction: column; }
+.counter-block__label {
+  font-family: var(--ff-body);
+  font-weight: 600;
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+.counter-block--raised .counter-block__label { color: var(--clr-mint); }
+.counter-block--goal   .counter-block__label { color: rgba(255,255,255,0.5); }
+.counter-block__value {
+  font-family: var(--ff-display);
+  font-weight: 800;
+  line-height: 1;
+  margin-bottom: 0.5rem;
+}
+.counter-block--raised .counter-block__value {
+  color: white;
+  font-size: clamp(3rem, 8vw, 6rem);
+}
+.counter-block--goal .counter-block__value {
+  color: var(--clr-mint);
+  font-size: clamp(2rem, 5vw, 4rem);
+}
+.counter-block__note {
+  font-family: var(--ff-body);
+  font-weight: 300;
+  font-size: 0.7rem;
+  color: rgba(255,255,255,0.35);
+}
+
+/* remaining amount — sits below the bar, centred, understated urgency */
+.scf-tracker__remaining {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin: 0.5rem 0 2rem;
+  gap: 0.3rem;
+}
+.scf-tracker__remaining-label {
+  font-family: var(--ff-body);
+  font-weight: 600;
+  font-size: 0.7rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.45);
+}
+.scf-tracker__remaining-value {
+  font-family: var(--ff-display);
+  font-weight: 800;
+  font-size: clamp(1.6rem, 4vw, 2.8rem);
+  color: rgba(255,255,255,0.55);
+  line-height: 1;
+}
+.scf-tracker__remaining-caption {
+  font-family: var(--ff-body);
+  font-weight: 300;
+  font-size: 0.75rem;
+  color: rgba(255,255,255,0.3);
+  font-style: italic;
+}
+
+.scf-tracker__disclaimer {
+  background: rgba(255,255,255,0.04);
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(255,255,255,0.06);
+  padding: 1.25rem 1.5rem;
+  margin-top: 2.5rem;
+  font-family: var(--ff-body);
+  font-weight: 300;
+  font-size: 0.8rem;
+  line-height: 1.7;
+  color: rgba(255,255,255,0.45);
+}
+
+/* ----------- 07. contribute ----------- */
+.scf-contribute {
+  background: var(--clr-bg-light);
+  padding: var(--space-section) clamp(1.5rem, 6vw, 5rem);
+}
+.scf-contribute__overline {
+  font-family: var(--ff-body);
+  font-weight: 600;
+  font-size: 0.7rem;
+  color: var(--clr-mint-muted);
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+  display: block;
+}
+.scf-contribute__heading {
+  font-family: var(--ff-display);
+  font-weight: 800;
+  font-size: clamp(2.8rem, 7vw, 6.5rem);
+  color: var(--clr-purple-deep);
+  line-height: 0.95;
+  margin: 0;
+}
+.scf-contribute__heading + .scf-contribute__heading { margin-top: 0; }
+.scf-contribute__heading-wrap { margin-bottom: 1.5rem; }
+.scf-contribute__sub {
+  font-family: var(--ff-body);
+  font-weight: 300;
+  font-size: 1rem;
+  color: var(--clr-dark);
+  opacity: 0.7;
+  margin: 0 0 3.5rem;
+  max-width: 640px;
+  line-height: 1.7;
+}
+
+.scf-contribute__cards {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}
+.contrib-card {
+  background: white;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(45,27,94,0.12);
+  display: flex;
+  flex-direction: column;
+}
+.contrib-card__header {
+  padding: 1.5rem 2rem;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.contrib-card--lillah .contrib-card__header { background: var(--clr-mint); }
+.contrib-card--zakaat .contrib-card__header { background: var(--clr-purple-mid); }
+
+.contrib-card__title {
+  font-family: var(--ff-display);
+  font-weight: 800;
+  font-size: 2.5rem;
+  line-height: 1;
+}
+.contrib-card--lillah .contrib-card__title { color: var(--clr-dark); }
+.contrib-card--zakaat .contrib-card__title { color: white; }
+
+.contrib-card__subtitle {
+  font-family: var(--ff-body);
+  font-style: italic;
+  font-weight: 300;
+  font-size: 0.85rem;
+  margin-top: 0.25rem;
+}
+.contrib-card--lillah .contrib-card__subtitle { color: var(--clr-dark); opacity: 0.8; }
+.contrib-card--zakaat .contrib-card__subtitle { color: rgba(255,255,255,0.75); }
+
+.contrib-card__logo-spot { width: 36px; height: 36px; flex-shrink: 0; opacity: 0.9; }
+
+.contrib-card__body { padding: 2rem; flex: 1; display: flex; flex-direction: column; }
+
+.bank-details {
+  background: var(--clr-bg-light);
+  border-radius: var(--radius-md);
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  transition: box-shadow 0.4s ease, border-color 0.4s ease;
+  border: 1px solid transparent;
+}
+.bank-details--flash {
+  border-color: var(--clr-mint);
+  box-shadow: 0 0 0 3px rgba(62,201,167,0.25);
+}
+.bank-details__label {
+  font-family: var(--ff-body);
+  font-weight: 600;
+  font-size: 0.65rem;
+  color: var(--clr-mint-muted);
+  letter-spacing: 0.2em;
+  margin-bottom: 1rem;
+}
+.bank-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.45rem 0;
+  border-bottom: 1px dashed rgba(45,27,94,0.08);
+}
+.bank-row:last-of-type { border-bottom: none; }
+.bank-row__label {
+  font-family: var(--ff-body);
+  font-weight: 600;
+  font-size: 0.8rem;
+  color: var(--clr-dark);
+}
+.bank-row__value {
+  font-family: var(--ff-body);
+  font-weight: 400;
+  font-size: 0.8rem;
+  color: var(--clr-purple-deep);
+  text-align: right;
+  word-break: break-all;
+}
+.bank-row--account .bank-row__value {
+  font-weight: 700;
+  font-size: 1rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.copy-account {
+  background: transparent;
+  border: 1px solid rgba(45,27,94,0.2);
+  border-radius: var(--radius-sm);
+  padding: 0.25rem 0.55rem;
+  font-family: var(--ff-body);
+  font-weight: 600;
+  font-size: 0.7rem;
+  color: var(--clr-purple-deep);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  transition: all 0.2s ease;
+  min-height: 28px;
+}
+.copy-account:hover {
+  border-color: var(--clr-mint);
+  color: var(--clr-mint-muted);
+}
+
+.zakaat-note {
+  background: rgba(62,201,167,0.1);
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(62,201,167,0.3);
+  padding: 0.75rem;
+  margin-top: 0.75rem;
+  font-family: var(--ff-body);
+  font-weight: 400;
+  font-size: 0.78rem;
+  color: var(--clr-mint-muted);
+  line-height: 1.5;
+}
+
+.amount-selector__label {
+  font-family: var(--ff-body);
+  font-weight: 600;
+  font-size: 0.8rem;
+  color: var(--clr-dark);
+  margin-bottom: 0.75rem;
+  display: block;
+}
+.tier-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+.tier-btn {
+  background: white;
+  border: 2px solid rgba(45,27,94,0.2);
+  color: var(--clr-purple-deep);
+  font-family: var(--ff-body);
+  font-weight: 600;
+  font-size: 0.85rem;
+  padding: 0.55rem 1.2rem;
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-height: 44px;
+  flex: 1 0 calc(50% - 0.5rem);
+}
+.tier-btn:hover { border-color: var(--clr-purple-deep); }
+.tier-btn--selected {
+  background: var(--clr-purple-deep);
+  color: white;
+  border-color: var(--clr-purple-deep);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(45,27,94,0.3);
+}
+.contrib-card--zakaat .tier-btn--selected {
+  background: var(--clr-purple-mid);
+  border-color: var(--clr-purple-mid);
+}
+
+.custom-amount-input {
+  width: 100%;
+  padding: 0.7rem 1rem;
+  border: 2px solid rgba(45,27,94,0.15);
+  border-radius: var(--radius-md);
+  font-family: var(--ff-body);
+  font-weight: 400;
+  font-size: 1rem;
+  color: var(--clr-dark);
+  background: white;
+  margin-bottom: 1.25rem;
+  transition: border-color 0.2s ease;
+}
+.custom-amount-input:focus {
+  outline: none;
+  border-color: var(--clr-mint);
+}
+
+.contrib-cta {
+  width: 100%;
+  color: white;
+  font-family: var(--ff-body);
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 1rem;
+  border-radius: var(--radius-md);
+  border: none;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  margin-top: auto;
+}
+.contrib-card--lillah .contrib-cta { background: var(--clr-purple-deep); }
+.contrib-card--lillah .contrib-cta:hover {
+  background: var(--clr-purple-light);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(45,27,94,0.35);
+}
+.contrib-card--zakaat .contrib-cta { background: var(--clr-purple-mid); }
+.contrib-card--zakaat .contrib-cta:hover {
+  background: var(--clr-purple-light);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(45,27,94,0.35);
+}
+
+.security-footer {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  font-family: var(--ff-body);
+  font-weight: 300;
+  font-size: 0.7rem;
+  color: rgba(26,26,46,0.45);
+  line-height: 1.5;
+}
+.security-footer svg { color: var(--clr-mint-muted); flex-shrink: 0; }
+
+.online-banner {
+  background: var(--clr-mint);
+  border-radius: var(--radius-md);
+  padding: 1.5rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+.online-banner__title {
+  font-family: var(--ff-body);
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--clr-dark);
+  margin: 0 0 0.25rem;
+}
+.online-banner__sub {
+  font-family: var(--ff-body);
+  font-weight: 300;
+  font-size: 0.85rem;
+  color: var(--clr-dark);
+  opacity: 0.75;
+  margin: 0;
+}
+.whatsapp-btn {
+  background: #25D366;
+  color: white;
+  font-family: var(--ff-body);
+  font-weight: 600;
+  font-size: 0.85rem;
+  padding: 0.65rem 1.4rem;
+  border-radius: var(--radius-pill);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  min-height: 44px;
+}
+.whatsapp-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 14px rgba(37,211,102,0.4);
+}
+
+/* ----------- 08. madressa ----------- */
+.scf-madressa {
+  background: white;
+  padding: var(--space-section) clamp(1.5rem, 6vw, 5rem);
+}
+.scf-madressa__heading {
+  font-family: var(--ff-display);
+  font-weight: 800;
+  font-size: clamp(2.5rem, 6vw, 5rem);
+  color: var(--clr-purple-deep);
+  line-height: 1;
+  margin: 0.5rem 0 0.25rem;
+}
+.scf-madressa__location {
+  font-family: var(--ff-body);
+  font-weight: 300;
+  font-size: 0.95rem;
+  color: var(--clr-mint-muted);
+  margin: 0 0 2.5rem;
+}
+.scf-madressa__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 3rem;
+}
+.scf-madressa__body {
+  font-family: var(--ff-body);
+  font-weight: 300;
+  font-size: 1rem;
+  line-height: 1.8;
+  color: var(--clr-dark);
+  margin: 0 0 2rem;
+}
+.coverage-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-bottom: 1.5rem;
+}
+.coverage-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: var(--clr-bg-light);
+  border: 1px solid rgba(45,27,94,0.1);
+  border-radius: var(--radius-pill);
+  padding: 0.5rem 1.2rem;
+  font-family: var(--ff-body);
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: var(--clr-purple-deep);
+}
+.coverage-chip::before {
+  content: "";
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--clr-mint);
+  display: inline-block;
+}
+
+.running-costs {
+  background: var(--clr-purple-deep);
+  border-radius: var(--radius-md);
+  padding: 1.5rem;
+  margin-top: 1.5rem;
+  color: white;
+}
+.running-costs__value {
+  font-family: var(--ff-display);
+  font-weight: 800;
+  font-size: 2rem;
+  color: var(--clr-mint);
+  line-height: 1;
+  margin-bottom: 0.4rem;
+}
+.running-costs__label {
+  font-family: var(--ff-body);
+  font-weight: 300;
+  font-size: 0.85rem;
+  color: white;
+  opacity: 0.75;
+}
+.running-costs__divider {
+  height: 1px;
+  background: rgba(255,255,255,0.1);
+  margin: 1rem 0;
+}
+.running-costs__zakaat {
+  font-family: var(--ff-body);
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: var(--clr-mint);
+  margin-bottom: 0.25rem;
+}
+.running-costs__detail {
+  font-family: var(--ff-body);
+  font-weight: 300;
+  font-size: 0.8rem;
+  color: rgba(255,255,255,0.6);
+  line-height: 1.5;
+  margin: 0;
+}
+
+.photo-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+}
+.photo-card {
+  aspect-ratio: 1;
+  border-radius: var(--radius-md);
+  background: var(--clr-bg-light);
+  border: 1px solid rgba(45,27,94,0.08);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  overflow: hidden;
+  transition: all 0.2s ease;
+  padding: 0.5rem;
+}
+.photo-card:hover {
+  border-color: var(--clr-mint);
+  background: rgba(62,201,167,0.05);
+}
+.photo-card svg { width: 24px; height: 24px; color: var(--clr-purple-light); opacity: 0.4; }
+.photo-card__caption {
+  font-family: var(--ff-body);
+  font-weight: 300;
+  font-size: 0.7rem;
+  color: var(--clr-dark);
+  opacity: 0.45;
+  text-align: center;
+  padding: 0 0.5rem;
+  line-height: 1.4;
+}
+.photo-note {
+  font-family: var(--ff-body);
+  font-weight: 300;
+  font-size: 0.75rem;
+  color: var(--clr-dark);
+  opacity: 0.45;
+  margin-top: 0.75rem;
+}
+.madressa-cta-row {
+  text-align: center;
+  margin-top: 3rem;
+}
+.madressa-contribute-btn {
+  font-family: var(--ff-body);
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--clr-purple-deep);
+  background: transparent;
+  border: 2px solid var(--clr-purple-deep);
+  padding: 0.85rem 2rem;
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.25s ease;
+  min-height: 44px;
+}
+.madressa-contribute-btn:hover {
+  background: var(--clr-purple-deep);
+  color: white;
+}
+
+/* ----------- 09. timeline ----------- */
+.scf-timeline {
+  background: var(--clr-purple-deep);
+  padding: var(--space-section) clamp(1.5rem, 6vw, 5rem);
+  position: relative;
+  overflow: hidden;
+  color: white;
+}
+.scf-timeline__pattern {
+  position: absolute;
+  inset: 0;
+  opacity: 0.05;
+  pointer-events: none;
+}
+.scf-timeline > .section-container { position: relative; z-index: 1; }
+.scf-timeline__heading {
+  font-family: var(--ff-display);
+  font-weight: 800;
+  font-size: clamp(2.5rem, 6vw, 5rem);
+  color: white;
+  line-height: 1;
+  margin: 0 0 0.5rem;
+}
+.scf-timeline__sub {
+  font-family: var(--ff-body);
+  font-weight: 300;
+  font-size: 1rem;
+  color: var(--clr-mint);
+  margin: 0 0 4rem;
+}
+
+.timeline-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 3rem;
+}
+.timeline-year__label {
+  font-family: var(--ff-display);
+  font-weight: 800;
+  font-size: clamp(2rem, 5vw, 4rem);
+  color: var(--clr-mint);
+  line-height: 1;
+  margin-bottom: 0.5rem;
+}
+.timeline-year__rule {
+  width: 60px;
+  height: 2px;
+  background: var(--clr-mint);
+  margin-bottom: 1.75rem;
+}
+.timeline-project-label {
+  font-family: var(--ff-body);
+  font-weight: 600;
+  font-size: 0.65rem;
+  color: var(--clr-mint);
+  letter-spacing: 0.2em;
+  margin: 1.5rem 0 0.75rem;
+}
+.timeline-project-label:first-child { margin-top: 0; }
+
+.timeline-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+.timeline-item__icon {
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1px;
+  box-sizing: border-box;
+}
+.timeline-item--done .timeline-item__icon {
+  background: var(--clr-mint);
+}
+.timeline-item--done .timeline-item__icon svg { color: white; width: 12px; height: 12px; }
+.timeline-item--active .timeline-item__icon {
+  border: 2px solid var(--clr-mint);
+  background: transparent;
+}
+.timeline-item--active .timeline-item__icon::before {
+  content: "";
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--clr-mint);
+  animation: phasePulse 2s ease-in-out infinite;
+}
+.timeline-item--upcoming .timeline-item__icon {
+  border: 2px solid rgba(255,255,255,0.2);
+  background: transparent;
+}
+.timeline-item__text {
+  font-family: var(--ff-body);
+  font-weight: 400;
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+.timeline-item--done .timeline-item__text { color: white; }
+.timeline-item--active .timeline-item__text { color: var(--clr-mint); }
+.timeline-item--upcoming .timeline-item__text { color: rgba(255,255,255,0.4); }
+
+/* ----------- 10. leadership ----------- */
+.scf-leadership {
+  background: var(--clr-bg-light);
+  padding: var(--space-section) clamp(1.5rem, 6vw, 5rem);
+}
+.scf-leadership__heading {
+  font-family: var(--ff-display);
+  font-weight: 800;
+  font-size: clamp(2.2rem, 5vw, 4rem);
+  color: var(--clr-purple-deep);
+  line-height: 1;
+  margin: 0 0 1rem;
+}
+.scf-leadership__intro {
+  font-family: var(--ff-body);
+  font-weight: 300;
+  font-size: 1rem;
+  line-height: 1.8;
+  color: var(--clr-dark);
+  opacity: 0.8;
+  max-width: 680px;
+  margin: 0 0 3rem;
+}
+
+.spiritual-authority {
+  background: var(--clr-purple-deep);
+  border-radius: var(--radius-lg);
+  padding: 2rem 2.5rem;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 2.5rem;
+  color: white;
+}
+.spiritual-authority__pattern {
+  position: absolute;
+  inset: 0;
+  opacity: 0.06;
+  pointer-events: none;
+}
+.spiritual-authority > * { position: relative; z-index: 1; }
+.spiritual-authority__label {
+  font-family: var(--ff-body);
+  font-weight: 600;
+  font-size: 0.65rem;
+  color: var(--clr-mint);
+  letter-spacing: 0.25em;
+  margin-bottom: 1rem;
+}
+.spiritual-authority__text {
+  font-family: var(--ff-brand);
+  font-weight: 400;
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: white;
+  margin: 0;
+  max-width: 880px;
+}
+.spiritual-authority__text em {
+  color: var(--clr-mint);
+  font-style: italic;
+  font-weight: 700;
+}
+
+.role-label {
+  font-family: var(--ff-body);
+  font-weight: 600;
+  font-size: 0.65rem;
+  color: var(--clr-mint-muted);
+  letter-spacing: 0.25em;
+  margin-bottom: 1rem;
+  display: block;
+  text-transform: uppercase;
+}
+
+.role-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  margin-bottom: 2.5rem;
+}
+.trustee-card, .aalim-card {
+  background: white;
+  border-radius: var(--radius-md);
+  padding: 1.75rem;
+  border: 1px solid rgba(45,27,94,0.08);
+  box-shadow: 0 2px 16px rgba(45,27,94,0.06);
+}
+.role-badge {
+  background: var(--clr-bg-light);
+  color: var(--clr-mint-muted);
+  font-family: var(--ff-body);
+  font-weight: 600;
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  border-radius: var(--radius-pill);
+  padding: 0.2rem 0.75rem;
+  display: inline-block;
+  margin-bottom: 0.75rem;
+  text-transform: uppercase;
+}
+.trustee-card__name, .aalim-card__name {
+  font-family: var(--ff-body);
+  font-weight: 600;
+  font-size: 1.05rem;
+  color: var(--clr-purple-deep);
+  margin: 0 0 0.5rem;
+  line-height: 1.3;
+}
+.tap-call {
+  font-family: var(--ff-body);
+  font-weight: 400;
+  font-size: 0.9rem;
+  color: var(--clr-mint-muted);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+.tap-call:hover { color: var(--clr-mint); }
+.tap-call svg { width: 14px; height: 14px; }
+
+.aalim-card__title {
+  font-family: var(--ff-body);
+  font-weight: 300;
+  font-style: italic;
+  font-size: 0.85rem;
+  color: var(--clr-dark);
+  opacity: 0.6;
+  margin: 0;
+}
+
+/* ----------- 11. hadith interlude ----------- */
+.scf-hadith {
+  background: var(--clr-mint);
+  padding: var(--space-section) clamp(1.5rem, 6vw, 5rem);
+  text-align: center;
+}
+.scf-hadith__inner { max-width: 760px; margin: 0 auto; }
+.scf-hadith__quote-1 {
+  font-family: var(--ff-brand);
+  font-weight: 700;
+  font-style: italic;
+  font-size: clamp(1.5rem, 4vw, 2.5rem);
+  color: var(--clr-purple-deep);
+  line-height: 1.35;
+  margin: 0 0 0.75rem;
+}
+.scf-hadith__source-1, .scf-hadith__source-2 {
+  font-family: var(--ff-body);
+  font-weight: 300;
+  font-size: 0.85rem;
+  color: var(--clr-purple-deep);
+  opacity: 0.65;
+}
+.scf-hadith__divider {
+  width: 80px;
+  height: 1px;
+  background: var(--clr-purple-deep);
+  opacity: 0.2;
+  margin: 2.5rem auto;
+  border: 0;
+}
+.scf-hadith__quote-2 {
+  font-family: var(--ff-brand);
+  font-weight: 400;
+  font-style: italic;
+  font-size: clamp(1.2rem, 3vw, 1.9rem);
+  color: var(--clr-purple-deep);
+  opacity: 0.85;
+  line-height: 1.45;
+  margin: 0 0 0.75rem;
+}
+.scf-hadith__source-2 { opacity: 0.55; font-size: 0.8rem; }
+
+/* ----------- 12. contact ----------- */
+.scf-contact {
+  background: white;
+  padding: var(--space-section) clamp(1.5rem, 6vw, 5rem);
+}
+.scf-contact__heading {
+  font-family: var(--ff-display);
+  font-weight: 800;
+  font-size: clamp(2.2rem, 5vw, 4rem);
+  color: var(--clr-purple-deep);
+  line-height: 1;
+  margin: 0 0 2.5rem;
+}
+.scf-contact__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 3rem;
+}
+.scf-contact__form input,
+.scf-contact__form select,
+.scf-contact__form textarea {
+  width: 100%;
+  padding: 0.85rem 1.1rem;
+  border: 2px solid rgba(45,27,94,0.12);
+  border-radius: var(--radius-md);
+  font-family: var(--ff-body);
+  font-weight: 400;
+  font-size: 1rem; /* 16px to prevent iOS zoom */
+  color: var(--clr-dark);
+  background: var(--clr-bg-light);
+  transition: all 0.2s ease;
+  margin-bottom: 1rem;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.scf-contact__form select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'%3E%3Cpath d='M1 1L6 6L11 1' stroke='%232D1B5E' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1.1rem center;
+  padding-right: 2.5rem;
+}
+.scf-contact__form textarea { resize: vertical; min-height: 130px; }
+.scf-contact__form input:focus,
+.scf-contact__form select:focus,
+.scf-contact__form textarea:focus {
+  outline: none;
+  border-color: var(--clr-mint);
+  background: white;
+}
+.scf-contact__submit {
+  width: 100%;
+  background: var(--clr-purple-deep);
+  color: white;
+  font-family: var(--ff-body);
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 1rem;
+  border-radius: var(--radius-md);
+  border: none;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+.scf-contact__submit:hover {
+  background: var(--clr-purple-light);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(45,27,94,0.3);
+}
+.scf-contact__privacy {
+  font-family: var(--ff-body);
+  font-weight: 300;
+  font-size: 0.7rem;
+  color: var(--clr-dark);
+  opacity: 0.4;
+  text-align: center;
+  margin: 0.75rem 0 0;
+}
+
+.contact-detail {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+.contact-detail__icon {
+  width: 40px; height: 40px;
+  background: var(--clr-bg-light);
+  border-radius: var(--radius-sm);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.contact-detail__icon svg { width: 18px; height: 18px; color: var(--clr-mint); }
+.contact-detail__body { flex: 1; }
+.contact-detail__label {
+  font-family: var(--ff-display);
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--clr-purple-deep);
+  letter-spacing: 0.05em;
+  line-height: 1.2;
+  margin-bottom: 0.25rem;
+}
+.contact-detail__line {
+  font-family: var(--ff-body);
+  font-weight: 400;
+  font-size: 0.9rem;
+  color: var(--clr-dark);
+  line-height: 1.5;
+  display: block;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+.contact-detail__line--muted {
+  font-weight: 300;
+  font-size: 0.85rem;
+  opacity: 0.65;
+}
+a.contact-detail__line:hover { color: var(--clr-mint); }
+.contact-detail__lines {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+/* ----------- 13. footer ----------- */
+.scf-footer {
+  background: var(--clr-purple-dark);
+  padding: 4rem clamp(1.5rem, 6vw, 5rem) 2rem;
+  position: relative;
+  overflow: hidden;
+  color: white;
+}
+.scf-footer__pattern {
+  position: absolute;
+  inset: 0;
+  opacity: 0.04;
+  pointer-events: none;
+}
+.scf-footer > .section-container { position: relative; z-index: 1; }
+.scf-footer__brand-col {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.35rem;
+}
+.scf-footer__brand-col svg { margin-bottom: 0.5rem; }
+.scf-footer__brand {
+  font-family: var(--ff-brand);
+  font-weight: 700;
+  font-size: 2rem;
+  color: white;
+  letter-spacing: 0.1em;
+  line-height: 1;
+}
+.scf-footer__brand-sub {
+  font-family: var(--ff-body);
+  font-weight: 300;
+  font-size: 0.7rem;
+  color: var(--clr-mint);
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+}
+.scf-footer__brand-reg {
+  font-family: var(--ff-body);
+  font-weight: 300;
+  font-size: 0.65rem;
+  color: rgba(255,255,255,0.3);
+  letter-spacing: 0.15em;
+  margin-top: 0.25rem;
+}
+.scf-footer__divider {
+  height: 1px;
+  background: var(--clr-border-light);
+  margin: 2.5rem 0;
+  border: 0;
+}
+.scf-footer__columns {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 3rem;
+}
+.scf-footer__col-label {
+  font-family: var(--ff-body);
+  font-weight: 600;
+  font-size: 0.65rem;
+  color: var(--clr-mint);
+  letter-spacing: 0.2em;
+  margin-bottom: 1.25rem;
+  text-transform: uppercase;
+}
+.scf-footer__links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.scf-footer__links a, .scf-footer__contact a {
+  font-family: var(--ff-body);
+  font-weight: 300;
+  font-size: 0.85rem;
+  color: rgba(255,255,255,0.6);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+.scf-footer__links a:hover, .scf-footer__contact a:hover { color: white; }
+.scf-footer__contact {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+.scf-footer__contact-line {
+  font-family: var(--ff-body);
+  font-weight: 300;
+  font-size: 0.85rem;
+  color: rgba(255,255,255,0.6);
+}
+.scf-footer__support-item {
+  margin-bottom: 1rem;
+}
+.scf-footer__support-item:last-child { margin-bottom: 0; }
+.scf-footer__support-title {
+  font-family: var(--ff-body);
+  font-weight: 300;
+  font-size: 0.8rem;
+  color: rgba(255,255,255,0.7);
+  margin: 0 0 0.15rem;
+}
+.scf-footer__support-sub {
+  font-family: var(--ff-body);
+  font-weight: 300;
+  font-size: 0.7rem;
+  color: rgba(255,255,255,0.4);
+  margin: 0;
+}
+
+.scf-footer__bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  font-family: var(--ff-body);
+  font-weight: 300;
+  font-size: 0.75rem;
+  color: rgba(255,255,255,0.35);
+}
+.scf-footer__bottom a {
+  color: var(--clr-mint);
+  text-decoration: none;
+  transition: text-decoration 0.2s ease;
+}
+.scf-footer__bottom a:hover { text-decoration: underline; }
+
+.scf-footer__duaa {
+  text-align: center;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  font-family: var(--ff-brand);
+  font-weight: 400;
+  font-style: italic;
+  font-size: 1rem;
+  color: var(--clr-mint);
+  opacity: 0.7;
+  line-height: 1.5;
+}
+
+/* ----------- 14. utilities & animations ----------- */
+.section-container { width: 100%; }
+
+/* ----------- 15. responsive overrides ----------- */
+@media (min-width: 480px) {
+  .tier-btn { flex: 1 0 calc(25% - 0.5rem); }
+}
+
+@media (min-width: 768px) {
+  /* tablet + up — full nav, no hamburger */
+  .scf-nav { height: 72px; padding: 0 clamp(1.25rem, 3vw, 2rem); }
+  .scf-nav__brand { font-size: 1.3rem; }
+  .scf-nav__sub  { font-size: 0.5rem; letter-spacing: 0.22em; }
+  .scf-nav__links { display: flex; gap: 1.1rem; }
+  .scf-nav__links a { font-size: 0.74rem; letter-spacing: 0.04em; }
+  .scf-nav__cta { font-size: 0.74rem; padding: 0.5rem 1.1rem; }
+  .scf-nav__toggle { display: none; }
+  .scf-nav__overlay { display: none; }
+}
+
+@media (min-width: 1080px) {
+  .scf-nav { padding: 0 clamp(2rem, 4vw, 3rem); }
+  .scf-nav__brand { font-size: 1.4rem; }
+  .scf-nav__sub  { font-size: 0.55rem; letter-spacing: 0.25em; }
+  .scf-nav__links { gap: 1.75rem; }
+  .scf-nav__links a { font-size: 0.8rem; letter-spacing: 0.05em; }
+  .scf-nav__cta  { font-size: 0.8rem; padding: 0.55rem 1.4rem; }
+}
+
+@media (min-width: 1280px) {
+  .scf-nav { padding: 0 4rem; }
+  .scf-nav__links { gap: 2rem; }
+}
+
+@media (min-width: 768px) {
+
+  .scf-about__grid {
+    grid-template-columns: 55fr 45fr;
+    gap: 4rem;
+  }
+
+  .scf-contribute__cards {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .role-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .role-grid--aalims {
+    grid-template-columns: repeat(2, 1fr);
+    max-width: 720px;
+  }
+
+  .scf-contact__grid {
+    grid-template-columns: 60fr 40fr;
+  }
+
+  .scf-footer__columns {
+    grid-template-columns: 1.2fr 1fr 1.1fr 1.2fr;
+    align-items: start;
+    gap: 2.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .scf-musjid__body {
+    grid-template-columns: 60fr 40fr;
+    gap: 4rem;
+  }
+  .scf-musjid__phases {
+    flex-direction: row;
+    gap: 0;
+    margin-top: 1rem;
+  }
+  .scf-musjid__phases::before {
+    content: "";
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    right: 14px;
+    height: 2px;
+    background: linear-gradient(to right, var(--clr-mint) 40%, rgba(255,255,255,0.2) 40%);
+    z-index: 0;
+  }
+  .phase-item {
+    flex: 1;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 0.5rem;
+  }
+  .phase-item__chip { align-self: center; }
+
+  .scf-madressa__grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+  }
+
+  .timeline-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 1280px) {
+  /* nav padding */
+}
+</style>
+</head>
+
+<body>
+
+<!-- ----------- shared geometric pattern (referenced by every <svg> below) ----------- -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <!--
+      classic 8-pointed star tessellation — two overlapping squares
+      rotated 45deg, stroked only, 60x60 tile, scales by reference.
+    -->
+    <pattern id="scf-stars" x="0" y="0" width="60" height="60" patternUnits="userSpaceOnUse">
+      <g fill="none" stroke="currentColor" stroke-width="1">
+        <rect x="15" y="15" width="30" height="30" />
+        <rect x="15" y="15" width="30" height="30" transform="rotate(45 30 30)" />
+        <line x1="0"  y1="30" x2="60" y2="30" />
+        <line x1="30" y1="0"  x2="30" y2="60" />
+        <circle cx="30" cy="30" r="4" />
+      </g>
+    </pattern>
+  </defs>
+</svg>
+
+<!-- ----------- nav ----------- -->
+<header class="scf-nav" role="banner">
+  <a href="#home" class="scf-nav__logo" aria-label="Siddique Charitable Foundation home">
+    <!-- dome + minaret + book on rehal -->
+    <svg class="scf-nav__logo-mark" viewBox="0 0 44 44" fill="none" aria-hidden="true">
+      <!-- minaret -->
+      <rect x="6" y="14" width="3" height="22" fill="#3EC9A7" />
+      <path d="M5 14 L10 14 L7.5 9 Z" fill="#3EC9A7" />
+      <!-- arch -->
+      <path d="M14 36 V22 a8 8 0 0 1 16 0 V36 Z" stroke="#3EC9A7" stroke-width="2" fill="none" />
+      <!-- dome top -->
+      <path d="M14 22 a8 8 0 0 1 16 0" stroke="#3EC9A7" stroke-width="2" fill="none" />
+      <circle cx="22" cy="11" r="1.4" fill="#3EC9A7" />
+      <line x1="22" y1="9" x2="22" y2="13" stroke="#3EC9A7" stroke-width="1.2" />
+      <!-- rehal -->
+      <path d="M16 36 L28 36 L26 32 L18 32 Z" fill="#5B3A8A" />
+      <!-- book -->
+      <path d="M18 32 L26 32 L26 27 L22 28 L18 27 Z" fill="#FFFFFF" />
+      <line x1="22" y1="28" x2="22" y2="32" stroke="#5B3A8A" stroke-width="0.8" />
+      <!-- base line -->
+      <line x1="34" y1="36" x2="40" y2="36" stroke="#3EC9A7" stroke-width="2" />
+    </svg>
+    <span class="scf-nav__logo-text">
+      <span class="scf-nav__brand">SIDDIQUE</span>
+      <span class="scf-nav__sub">Charitable Foundation NPC</span>
+    </span>
+  </a>
+
+  <ul class="scf-nav__links">
+    <li><a href="#home">Home</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#progress">Progress</a></li>
+    <li><a href="#madressa">Madressa</a></li>
+    <li><a href="#contribute">Contribute</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+
+  <div class="scf-nav__right">
+    <a href="#contribute" class="scf-nav__cta">Contribute Now</a>
+    <button class="scf-nav__toggle" aria-label="Open menu" aria-expanded="false" aria-controls="navOverlay">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<nav id="navOverlay" class="scf-nav__overlay" aria-label="Mobile">
+  <button class="scf-nav__overlay-close" aria-label="Close menu">✕</button>
+  <a href="#home">Home</a>
+  <a href="#about">About</a>
+  <a href="#projects">Projects</a>
+  <a href="#progress">Progress</a>
+  <a href="#madressa">Madressa</a>
+  <a href="#contribute">Contribute</a>
+  <a href="#contact">Contact</a>
+  <a href="#contribute" class="scf-nav__cta">Contribute Now</a>
+</nav>
+
+<main>
+
+<!-- ----------- hero ----------- -->
+<section id="home" class="scf-hero" data-screen-label="01 Hero">
+  <!-- pattern -->
+  <svg class="scf-hero__bg-pattern" aria-hidden="true" style="color: #ffffff;">
+    <rect width="100%" height="100%" fill="url(#scf-stars)" />
+  </svg>
+  <div class="scf-hero__vignette"></div>
+
+  <div class="scf-hero__content">
+    <p class="scf-hero__bismillah js-hidden hero-animate" dir="rtl">بِسْمِ ٱللَّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</p>
+    <p class="scf-hero__reg js-hidden hero-animate">NPC Reg No: 2024/779233/08</p>
+    <h1 class="scf-hero__headline js-hidden hero-animate">ILM FOR TODAY,</h1>
+    <h1 class="scf-hero__headline scf-hero__headline--accent js-hidden hero-animate">IMAAN FOR ETERNITY.</h1>
+    <p class="scf-hero__sub js-hidden hero-animate">
+      Building a Musjid. Running a Madressa.
+      Serving Newcastle, KwaZulu-Natal.
+    </p>
+    <div class="scf-hero__ctas js-hidden hero-animate">
+      <a href="#contribute" class="scf-btn scf-btn--primary">Support a Project</a>
+      <a href="#projects"   class="scf-btn scf-btn--ghost">Explore Our Work</a>
+    </div>
+  </div>
+
+  <div class="scf-hero__marquee js-hidden hero-animate" aria-hidden="true">
+    <div class="scf-hero__marquee-track">
+      <span>Phase 1 Complete — Alhamdulillah ✓</span>
+      <span>·</span>
+      <span>Phase 2 Underway — Brick Laying Now In Progress</span>
+      <span>·</span>
+      <span>35 Students Enrolled at Kwamathukuza Madressa</span>
+      <span>·</span>
+      <span>Ilm For Today, Imaan For Eternity</span>
+      <span>·</span>
+      <!-- duplicate for seamless loop -->
+      <span>Phase 1 Complete — Alhamdulillah ✓</span>
+      <span>·</span>
+      <span>Phase 2 Underway — Brick Laying Now In Progress</span>
+      <span>·</span>
+      <span>35 Students Enrolled at Kwamathukuza Madressa</span>
+      <span>·</span>
+      <span>Ilm For Today, Imaan For Eternity</span>
+      <span>·</span>
+    </div>
+  </div>
+</section>
+
+
+<!-- ----------- about ----------- -->
+<section id="about" class="scf-about" data-screen-label="02 About">
+  <div class="section-container">
+    <div class="scf-about__grid">
+      <div>
+        <span class="eyebrow fade-on-scroll" style="color: var(--clr-mint-muted)">Who We Are</span>
+        <h2 class="scf-about__heading fade-on-scroll">A Foundation Built on Faith</h2>
+        <p class="scf-about__purpose fade-on-scroll">
+          The Siddique Charitable Foundation NPC is established to address the
+          urgent need for Islamic facilities and educational opportunities in
+          disadvantaged communities. We strive to create spaces that inspire
+          spiritual growth, provide access to quality education, and unite
+          communities through shared values.
+        </p>
+
+        <div class="scf-about__block fade-on-scroll">
+          <p class="scf-about__block-label">VISION</p>
+          <p class="scf-about__block-text">
+            To establish a unified, resilient, and empowered Muslim community
+            by building sustainable institutions that enrich lives through
+            faith, education, and service.
+          </p>
+        </div>
+
+        <div class="scf-about__block fade-on-scroll">
+          <p class="scf-about__block-label">MISSION</p>
+          <p class="scf-about__block-text">
+            Our mission is to develop inclusive and transformative spaces that
+            nurture spiritual well-being, advance educational opportunities,
+            and foster unity. By upholding the values of faith, compassion, and
+            service, we aim to empower individuals and strengthen communities.
+          </p>
+        </div>
+      </div>
+
+      <aside class="scf-about__hadith-card fade-on-scroll">
+        <svg class="pattern-fill" aria-hidden="true" style="color: #ffffff;">
+          <rect width="100%" height="100%" fill="url(#scf-stars)" />
+        </svg>
+        <span class="scf-about__hadith-quote-mark" aria-hidden="true">&ldquo;</span>
+        <p class="scf-about__hadith-text">
+          When a man passes away, his good deeds will also come to an end except for three:
+          <strong>Sadaqah Jariyah (ongoing charity)</strong>, a knowledge which is beneficial
+          or a virtuous descendant who prays for him.
+        </p>
+        <p class="scf-about__hadith-source">— Al-Bukhari</p>
+        <div class="scf-about__hadith-divider" aria-hidden="true"></div>
+        <p class="scf-about__hadith-followup">
+          By building a Musjid, you will not only earn the reward of providing
+          a community with a house of Allah (SWT), but your Sadaqah Jariyah
+          will continue giving benefit for generations to come.
+        </p>
+      </aside>
+    </div>
+
+    <div class="scf-about__chips fade-on-scroll">
+      <span class="scf-about__chip"><span class="scf-about__chip-icon" aria-hidden="true">📐</span> 2,135m² Land</span>
+      <span class="scf-about__chip"><span class="scf-about__chip-icon" aria-hidden="true">🎓</span> 35 Students</span>
+      <span class="scf-about__chip"><span class="scf-about__chip-icon" aria-hidden="true">🏗️</span> R4,000,000 Goal</span>
+    </div>
+  </div>
+</section>
+
+
+<!-- ----------- musjid project ----------- -->
+<section id="projects" class="scf-musjid" data-screen-label="03 Musjid">
+  <svg class="scf-musjid__pattern" aria-hidden="true" style="color:#ffffff;">
+    <rect width="100%" height="100%" fill="url(#scf-stars)" />
+  </svg>
+  <div class="section-container">
+    <span class="project-badge fade-on-scroll">KEY PROJECT&nbsp;&nbsp;01</span>
+    <h2 class="scf-musjid__heading fade-on-scroll">Building a Musjid</h2>
+    <p class="scf-musjid__location fade-on-scroll">Amajuba Park · Newcastle · KwaZulu-Natal</p>
+
+    <blockquote class="scf-musjid__hadith fade-on-scroll">
+      <p class="scf-musjid__hadith-quote">
+        Whoever builds a mosque for Allah, Allah will reward them with a place in Paradise.
+      </p>
+      <span class="scf-musjid__hadith-source">— Al-Bukhari</span>
+    </blockquote>
+
+    <div class="scf-musjid__body">
+      <div>
+        <p class="scf-musjid__body-text fade-on-scroll">
+          The Siddique Charitable Foundation is constructing a new Musjid on
+          2,135 square metres of land in Amajuba Park — a neighbourhood
+          currently without any Islamic facilities, adjacent to three other
+          suburbs. This Musjid will serve as a spiritual hub for the community,
+          providing a dedicated space for Salaah, Islamic education, and
+          communal gatherings. It aims to foster unity and support among the
+          local Muslim population.
+        </p>
+
+        <div class="scf-musjid__phases fade-on-scroll" role="list" aria-label="Construction phases">
+          <div class="phase-item phase-item--done" role="listitem">
+            <span class="phase-dot phase-dot--done" aria-hidden="true">✓</span>
+            <div class="phase-item__body">
+              <span class="phase-item__label">PHASE 1</span>
+              <span class="phase-item__sublabel">Foundation Complete</span>
+              <span class="phase-item__chip">✅ COMPLETE</span>
+            </div>
+          </div>
+          <div class="phase-item phase-item--active" role="listitem">
+            <span class="phase-dot phase-dot--active" aria-hidden="true"></span>
+            <div class="phase-item__body">
+              <span class="phase-item__label">PHASE 2</span>
+              <span class="phase-item__sublabel">Brick Laying · First Level</span>
+              <span class="phase-item__chip">🔄 IN PROGRESS</span>
+            </div>
+          </div>
+          <div class="phase-item phase-item--upcoming" role="listitem">
+            <span class="phase-dot phase-dot--upcoming" aria-hidden="true"></span>
+            <div class="phase-item__body">
+              <span class="phase-item__label">PHASE 3</span>
+              <span class="phase-item__sublabel">Completion</span>
+              <span class="phase-item__chip">⏳ UPCOMING</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="scf-musjid__facts">
+        <div class="fact-card fade-on-scroll">
+          <p class="fact-card__label">LAND SIZE</p>
+          <p class="fact-card__value">2,135m²</p>
+          <p class="fact-card__detail">Amajuba Park, Newcastle</p>
+        </div>
+        <div class="fact-card fade-on-scroll">
+          <p class="fact-card__label">DEVELOPMENT COST</p>
+          <p class="fact-card__value">R4,000,000</p>
+          <p class="fact-card__detail">Total construction budget</p>
+        </div>
+        <div class="fact-card fade-on-scroll">
+          <p class="fact-card__label">CURRENT PHASE</p>
+          <p class="fact-card__value fact-card__value--accent">Phase 2</p>
+          <p class="fact-card__detail">
+            <span class="live-dot" aria-hidden="true"></span>
+            Brick laying of first level underway
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ----------- live fundraising tracker ----------- -->
+<section id="progress" class="scf-tracker" data-screen-label="04 Progress">
+  <div class="section-container">
+    <h2 class="scf-tracker__heading fade-on-scroll">The Foundation Grows</h2>
+    <p class="scf-tracker__sub fade-on-scroll">Phase by phase. Rand by rand.</p>
+
+    <div class="progress-rail" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" aria-label="Musjid fundraising progress">
+      <div class="progress-fill">
+      </div>
+      <span class="progress-badge">0%</span>
+    </div>
+
+    <!-- remaining amount — sits below bar as a quiet caption -->
+    <div class="scf-tracker__remaining">
+      <span class="scf-tracker__remaining-label">Still needed to complete this Musjid</span>
+      <span class="scf-tracker__remaining-value counter--remaining">R 4,000,000</span>
+      <span class="scf-tracker__remaining-caption">Every contribution closes this gap</span>
+    </div>
+
+    <div class="scf-tracker__counters">
+      <div class="counter-block counter-block--raised">
+        <span class="counter-block__label">RAISED SO FAR</span>
+        <span class="counter-block__value counter--raised">R 0</span>
+        <span class="counter-block__note">(Updated by the project committee)</span>
+      </div>
+      <div class="counter-block counter-block--goal">
+        <span class="counter-block__label">TOTAL GOAL</span>
+        <span class="counter-block__value counter--goal">R 4,000,000</span>
+        <span class="counter-block__note">Full development cost</span>
+      </div>
+    </div>
+
+    <p class="scf-tracker__disclaimer">
+      All Lillah contributions are directed exclusively to the Musjid building
+      fund. The progress figures above are updated manually by the project
+      committee. For real-time verification, please contact the trustees
+      directly.
+    </p>
+  </div>
+</section>
+
+
+<!-- ----------- contribute ----------- -->
+<section id="contribute" class="scf-contribute" data-screen-label="05 Contribute">
+  <div class="section-container">
+    <span class="scf-contribute__overline">Support Our Mission</span>
+    <div class="scf-contribute__heading-wrap">
+      <h2 class="scf-contribute__heading fade-on-scroll">Your Contribution.</h2>
+      <h2 class="scf-contribute__heading fade-on-scroll">Their Future.</h2>
+      <h2 class="scf-contribute__heading fade-on-scroll">Your Akhirah.</h2>
+    </div>
+    <p class="scf-contribute__sub fade-on-scroll">
+      Every rand builds something that outlasts us all.<br>
+      Choose where your contribution goes.
+    </p>
+
+    <div class="scf-contribute__cards">
+      <!-- ━━━━━━━━━━ LILLAH CARD ━━━━━━━━━━ -->
+      <article class="contrib-card contrib-card--lillah">
+        <div class="contrib-card__header">
+          <div>
+            <p class="contrib-card__title">LILLAH</p>
+            <p class="contrib-card__subtitle">for key projects only</p>
+          </div>
+          <!-- small logo glyph in dark purple on mint -->
+          <svg class="contrib-card__logo-spot" viewBox="0 0 44 44" fill="none" aria-hidden="true">
+            <rect x="6" y="14" width="3" height="22" fill="#2D1B5E" />
+            <path d="M5 14 L10 14 L7.5 9 Z" fill="#2D1B5E" />
+            <path d="M14 36 V22 a8 8 0 0 1 16 0 V36 Z" stroke="#2D1B5E" stroke-width="2" fill="none" />
+            <circle cx="22" cy="11" r="1.4" fill="#2D1B5E" />
+            <line x1="22" y1="9" x2="22" y2="13" stroke="#2D1B5E" stroke-width="1.2" />
+            <line x1="34" y1="36" x2="40" y2="36" stroke="#2D1B5E" stroke-width="2" />
+          </svg>
+        </div>
+        <div class="contrib-card__body">
+
+          <div class="bank-details">
+            <p class="bank-details__label">LILLAH BANKING DETAILS</p>
+            <div class="bank-row">
+              <span class="bank-row__label">Name</span>
+              <span class="bank-row__value">Siddique Charitable Foundation NPC</span>
+            </div>
+            <div class="bank-row">
+              <span class="bank-row__label">Account Type</span>
+              <span class="bank-row__value">Current Account</span>
+            </div>
+            <div class="bank-row bank-row--account">
+              <span class="bank-row__label">Account No</span>
+              <span class="bank-row__value">
+                63131313586
+                <button class="copy-account" data-account="63131313586" aria-label="Copy Lillah account number">
+                  <svg width="12" height="12" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                    <rect x="4" y="4" width="9" height="10" rx="1.2" stroke="currentColor" stroke-width="1.5"/>
+                    <path d="M3 11 V3 a1 1 0 0 1 1 -1 H10" stroke="currentColor" stroke-width="1.5"/>
+                  </svg>
+                  Copy
+                </button>
+              </span>
+            </div>
+            <div class="bank-row">
+              <span class="bank-row__label">Branch Code</span>
+              <span class="bank-row__value">210835</span>
+            </div>
+            <div class="bank-row">
+              <span class="bank-row__label">Bank</span>
+              <span class="bank-row__value">FNB</span>
+            </div>
+            <div class="bank-row">
+              <span class="bank-row__label">Ref</span>
+              <span class="bank-row__value">Your name + cell number</span>
+            </div>
+          </div>
+
+          <div class="amount-selector">
+            <label class="amount-selector__label" for="custom-lillah">Select an amount</label>
+            <div class="tier-row">
+              <button type="button" class="tier-btn" data-amount="100">R100</button>
+              <button type="button" class="tier-btn" data-amount="250">R250</button>
+              <button type="button" class="tier-btn" data-amount="500">R500</button>
+              <button type="button" class="tier-btn" data-amount="1000">R1,000</button>
+            </div>
+            <input
+              id="custom-lillah"
+              type="number"
+              inputmode="numeric"
+              min="1"
+              class="custom-amount-input"
+              placeholder="Or enter a custom amount (R)"
+            />
+          </div>
+
+          <button type="button" class="contrib-cta" data-flash-target=".contrib-card--lillah .bank-details">
+            Contribute Lillah via EFT
+          </button>
+
+          <p class="security-footer">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <rect x="3" y="7" width="10" height="7" rx="1" stroke="currentColor" stroke-width="1.4"/>
+              <path d="M5 7 V5 a3 3 0 0 1 6 0 V7" stroke="currentColor" stroke-width="1.4" fill="none"/>
+            </svg>
+            Verified NPC · Siddique Charitable Foundation NPC · Reg 2024/779233/08
+          </p>
+        </div>
+      </article>
+
+      <!-- ━━━━━━━━━━ ZAKAAT CARD ━━━━━━━━━━ -->
+      <article class="contrib-card contrib-card--zakaat">
+        <div class="contrib-card__header">
+          <div>
+            <p class="contrib-card__title">ZAKAAT</p>
+            <p class="contrib-card__subtitle">for student fees only</p>
+          </div>
+          <svg class="contrib-card__logo-spot" viewBox="0 0 44 44" fill="none" aria-hidden="true">
+            <rect x="6" y="14" width="3" height="22" fill="#FFFFFF" />
+            <path d="M5 14 L10 14 L7.5 9 Z" fill="#FFFFFF" />
+            <path d="M14 36 V22 a8 8 0 0 1 16 0 V36 Z" stroke="#FFFFFF" stroke-width="2" fill="none" />
+            <circle cx="22" cy="11" r="1.4" fill="#FFFFFF" />
+            <line x1="22" y1="9" x2="22" y2="13" stroke="#FFFFFF" stroke-width="1.2" />
+            <line x1="34" y1="36" x2="40" y2="36" stroke="#FFFFFF" stroke-width="2" />
+          </svg>
+        </div>
+        <div class="contrib-card__body">
+
+          <div class="bank-details">
+            <p class="bank-details__label">ZAKAAT BANKING DETAILS</p>
+            <div class="bank-row">
+              <span class="bank-row__label">Name</span>
+              <span class="bank-row__value">Siddique Charitable Foundation NPC</span>
+            </div>
+            <div class="bank-row">
+              <span class="bank-row__label">Account Type</span>
+              <span class="bank-row__value">Current Account</span>
+            </div>
+            <div class="bank-row bank-row--account">
+              <span class="bank-row__label">Account No</span>
+              <span class="bank-row__value">
+                63131318445
+                <button class="copy-account" data-account="63131318445" aria-label="Copy Zakaat account number">
+                  <svg width="12" height="12" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                    <rect x="4" y="4" width="9" height="10" rx="1.2" stroke="currentColor" stroke-width="1.5"/>
+                    <path d="M3 11 V3 a1 1 0 0 1 1 -1 H10" stroke="currentColor" stroke-width="1.5"/>
+                  </svg>
+                  Copy
+                </button>
+              </span>
+            </div>
+            <div class="bank-row">
+              <span class="bank-row__label">Branch Code</span>
+              <span class="bank-row__value">210835</span>
+            </div>
+            <div class="bank-row">
+              <span class="bank-row__label">Bank</span>
+              <span class="bank-row__value">FNB</span>
+            </div>
+            <div class="bank-row">
+              <span class="bank-row__label">Ref</span>
+              <span class="bank-row__value">Your name + cell number</span>
+            </div>
+
+            <div class="zakaat-note">
+              ✓ Zakaat applicable — contributions directed exclusively to
+              student fees, food, Islamic literature, and uniforms.
+            </div>
+          </div>
+
+          <div class="amount-selector">
+            <label class="amount-selector__label" for="custom-zakaat">Select an amount</label>
+            <div class="tier-row">
+              <button type="button" class="tier-btn" data-amount="100">R100</button>
+              <button type="button" class="tier-btn" data-amount="250">R250</button>
+              <button type="button" class="tier-btn" data-amount="500">R500</button>
+              <button type="button" class="tier-btn" data-amount="1000">R1,000</button>
+            </div>
+            <input
+              id="custom-zakaat"
+              type="number"
+              inputmode="numeric"
+              min="1"
+              class="custom-amount-input"
+              placeholder="Or enter a custom amount (R)"
+            />
+          </div>
+
+          <button type="button" class="contrib-cta" data-flash-target=".contrib-card--zakaat .bank-details">
+            Contribute Zakaat via EFT
+          </button>
+
+          <p class="security-footer">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <rect x="3" y="7" width="10" height="7" rx="1" stroke="currentColor" stroke-width="1.4"/>
+              <path d="M5 7 V5 a3 3 0 0 1 6 0 V7" stroke="currentColor" stroke-width="1.4" fill="none"/>
+            </svg>
+            Verified NPC · Siddique Charitable Foundation NPC · Reg 2024/779233/08
+          </p>
+        </div>
+      </article>
+    </div>
+
+    <div class="online-banner">
+      <div>
+        <p class="online-banner__title">Prefer to contribute via online payment?</p>
+        <p class="online-banner__sub">
+          PayFast online donations — coming soon. Contact the trustees directly for now.
+        </p>
+      </div>
+      <a class="whatsapp-btn" href="https://wa.me/27827981652" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M20.5 3.5A11.8 11.8 0 0 0 12 0C5.4 0 0 5.4 0 12c0 2.1.5 4.1 1.6 5.9L0 24l6.3-1.6A11.9 11.9 0 0 0 12 24c6.6 0 12-5.4 12-12 0-3.2-1.2-6.2-3.5-8.5zM12 22a9.9 9.9 0 0 1-5-1.4l-.4-.2-3.7.9.9-3.6-.2-.4A10 10 0 1 1 22 12c0 5.5-4.5 10-10 10zm5.5-7.4c-.3-.2-1.8-.9-2-1s-.5-.2-.7.2-.8 1-.9 1.2-.3.2-.6.1c-1.7-.9-2.9-1.6-4-3.6-.3-.5.3-.5.9-1.6.1-.2 0-.4 0-.5l-1-2.3c-.3-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4s-1.1 1-1.1 2.5 1.1 2.9 1.3 3.1c.2.2 2.2 3.4 5.3 4.8.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.8-.7 2-1.4.3-.7.3-1.3.2-1.4-.1-.1-.3-.2-.6-.4z"/>
+        </svg>
+        Chat on WhatsApp
+      </a>
+    </div>
+  </div>
+</section>
+
+
+<!-- ----------- madressa ----------- -->
+<section id="madressa" class="scf-madressa" data-screen-label="06 Madressa">
+  <div class="section-container">
+    <span class="project-badge fade-on-scroll" style="color: var(--clr-mint-muted);">KEY PROJECT&nbsp;&nbsp;02</span>
+    <h2 class="scf-madressa__heading fade-on-scroll">Kwamathukuza Madressa</h2>
+    <p class="scf-madressa__location fade-on-scroll">1177 Umziki Street · Kwamathukuza · Newcastle</p>
+
+    <div class="scf-madressa__grid">
+      <div>
+        <p class="scf-madressa__body fade-on-scroll">
+          The Kwamathukuza Madressa provides a dedicated space for Islamic
+          education in a disadvantaged community with a growing demand for
+          Islamic knowledge. Currently serving 35 enrolled students, the
+          Madressa nurtures young minds with the values and teachings of Islam,
+          serving as a cornerstone for spiritual growth and encouraging Shahada
+          in the surrounding population.
+        </p>
+
+        <div class="coverage-row fade-on-scroll" aria-label="What Zakaat covers">
+          <span class="coverage-chip">Fees</span>
+          <span class="coverage-chip">Food</span>
+          <span class="coverage-chip">Islamic Literature</span>
+          <span class="coverage-chip">Uniforms</span>
+        </div>
+
+        <div class="running-costs fade-on-scroll">
+          <p class="running-costs__value">R12,000 / month</p>
+          <p class="running-costs__label">Current monthly running costs</p>
+          <div class="running-costs__divider" aria-hidden="true"></div>
+          <p class="running-costs__zakaat">✓ Zakaat applicable</p>
+          <p class="running-costs__detail">
+            All contributions used for student fees, food, and educational materials.
+          </p>
+        </div>
+      </div>
+
+      <div>
+        <div class="photo-grid" aria-label="Photo gallery placeholder">
+          <div class="photo-card">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+              <rect x="3" y="6" width="18" height="14" rx="2"/>
+              <circle cx="12" cy="13" r="3.5"/>
+              <path d="M8 6 L9 4 H15 L16 6"/>
+            </svg>
+            <span class="photo-card__caption">Students in class</span>
+          </div>
+          <div class="photo-card">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+              <rect x="3" y="6" width="18" height="14" rx="2"/>
+              <circle cx="12" cy="13" r="3.5"/>
+              <path d="M8 6 L9 4 H15 L16 6"/>
+            </svg>
+            <span class="photo-card__caption">Madressa classroom interior</span>
+          </div>
+          <div class="photo-card">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+              <rect x="3" y="6" width="18" height="14" rx="2"/>
+              <circle cx="12" cy="13" r="3.5"/>
+              <path d="M8 6 L9 4 H15 L16 6"/>
+            </svg>
+            <span class="photo-card__caption">Students at lunch</span>
+          </div>
+          <div class="photo-card">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+              <rect x="3" y="6" width="18" height="14" rx="2"/>
+              <circle cx="12" cy="13" r="3.5"/>
+              <path d="M8 6 L9 4 H15 L16 6"/>
+            </svg>
+            <span class="photo-card__caption">Madressa building exterior</span>
+          </div>
+          <div class="photo-card">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+              <rect x="3" y="6" width="18" height="14" rx="2"/>
+              <circle cx="12" cy="13" r="3.5"/>
+              <path d="M8 6 L9 4 H15 L16 6"/>
+            </svg>
+            <span class="photo-card__caption">Islamic literature</span>
+          </div>
+          <div class="photo-card">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+              <rect x="3" y="6" width="18" height="14" rx="2"/>
+              <circle cx="12" cy="13" r="3.5"/>
+              <path d="M8 6 L9 4 H15 L16 6"/>
+            </svg>
+            <span class="photo-card__caption">Community gathering</span>
+          </div>
+        </div>
+        <p class="photo-note">Gallery updated as we grow. Real photos coming soon.</p>
+      </div>
+    </div>
+
+    <div class="madressa-cta-row">
+      <button type="button" class="madressa-contribute-btn">
+        Support the Madressa with Zakaat →
+      </button>
+    </div>
+  </div>
+</section>
+
+
+<!-- ----------- timeline ----------- -->
+<section id="timeline" class="scf-timeline" data-screen-label="07 Timeline">
+  <svg class="scf-timeline__pattern" aria-hidden="true" style="color:#ffffff;">
+    <rect width="100%" height="100%" fill="url(#scf-stars)" />
+  </svg>
+  <div class="section-container">
+    <h2 class="scf-timeline__heading fade-on-scroll">Our Journey So Far</h2>
+    <p class="scf-timeline__sub fade-on-scroll">From planning to construction — every step, documented.</p>
+
+    <div class="timeline-grid">
+      <!-- 2024 -->
+      <div class="timeline-year">
+        <p class="timeline-year__label">2024</p>
+        <div class="timeline-year__rule" aria-hidden="true"></div>
+
+        <div class="timeline-item timeline-item--done">
+          <span class="timeline-item__icon">
+            <svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6 L5 9 L10 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+          <span class="timeline-item__text">Research and Planning</span>
+        </div>
+        <div class="timeline-item timeline-item--done">
+          <span class="timeline-item__icon">
+            <svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6 L5 9 L10 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+          <span class="timeline-item__text">Drafting of Constitution</span>
+        </div>
+        <div class="timeline-item timeline-item--done">
+          <span class="timeline-item__icon">
+            <svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6 L5 9 L10 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+          <span class="timeline-item__text">Legal Engagements</span>
+        </div>
+        <div class="timeline-item timeline-item--done">
+          <span class="timeline-item__icon">
+            <svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6 L5 9 L10 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+          <span class="timeline-item__text">Property Acquisitions</span>
+        </div>
+      </div>
+
+      <!-- 2025 -->
+      <div class="timeline-year">
+        <p class="timeline-year__label">2025</p>
+        <div class="timeline-year__rule" aria-hidden="true"></div>
+
+        <p class="timeline-project-label">PROJECT 1 — MUSJID</p>
+        <div class="timeline-item timeline-item--done">
+          <span class="timeline-item__icon">
+            <svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6 L5 9 L10 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+          <span class="timeline-item__text">Architectural Plans</span>
+        </div>
+        <div class="timeline-item timeline-item--active">
+          <span class="timeline-item__icon"></span>
+          <span class="timeline-item__text">Zoning &amp; Certification</span>
+        </div>
+        <div class="timeline-item timeline-item--done">
+          <span class="timeline-item__icon">
+            <svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6 L5 9 L10 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+          <span class="timeline-item__text">Construction Budget</span>
+        </div>
+
+        <p class="timeline-project-label">PROJECT 2 — MADRESSA</p>
+        <div class="timeline-item timeline-item--done">
+          <span class="timeline-item__icon">
+            <svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6 L5 9 L10 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+          <span class="timeline-item__text">Budget &amp; Collection for Renovation</span>
+        </div>
+        <div class="timeline-item timeline-item--done">
+          <span class="timeline-item__icon">
+            <svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6 L5 9 L10 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+          <span class="timeline-item__text">Procurement of Madressa Literature</span>
+        </div>
+        <div class="timeline-item timeline-item--done">
+          <span class="timeline-item__icon">
+            <svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6 L5 9 L10 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+          <span class="timeline-item__text">Student Registrations</span>
+        </div>
+        <div class="timeline-item timeline-item--done">
+          <span class="timeline-item__icon">
+            <svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6 L5 9 L10 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+          <span class="timeline-item__text">Education Begins</span>
+        </div>
+      </div>
+
+      <!-- 2026 -->
+      <div class="timeline-year">
+        <p class="timeline-year__label">2026</p>
+        <div class="timeline-year__rule" aria-hidden="true"></div>
+
+        <p class="timeline-project-label">PROJECT 1 — MUSJID</p>
+        <div class="timeline-item timeline-item--done">
+          <span class="timeline-item__icon">
+            <svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6 L5 9 L10 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+          <span class="timeline-item__text">Foundation</span>
+        </div>
+        <div class="timeline-item timeline-item--done">
+          <span class="timeline-item__icon">
+            <svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6 L5 9 L10 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+          <span class="timeline-item__text">Face Brick Purchased</span>
+        </div>
+        <div class="timeline-item timeline-item--active">
+          <span class="timeline-item__icon"></span>
+          <span class="timeline-item__text">LILLAH Fundraising</span>
+        </div>
+        <div class="timeline-item timeline-item--upcoming">
+          <span class="timeline-item__icon"></span>
+          <span class="timeline-item__text">Phase 2 — Brick Laying of First Level</span>
+        </div>
+
+        <p class="timeline-project-label">PROJECT 2 — MADRESSA</p>
+        <div class="timeline-item timeline-item--active">
+          <span class="timeline-item__icon"></span>
+          <span class="timeline-item__text">Monitoring &amp; Evaluation</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ----------- leadership ----------- -->
+<section id="leadership" class="scf-leadership" data-screen-label="08 Leadership">
+  <div class="section-container">
+    <h2 class="scf-leadership__heading fade-on-scroll">Leadership &amp; Governance</h2>
+    <p class="scf-leadership__intro fade-on-scroll">
+      Rooted in the principles of transparency, accountability, and excellence,
+      our leadership ensures that all projects are executed with integrity and
+      align fully with the foundation's constitution. All acquired properties
+      are registered under the foundation.
+    </p>
+
+    <div class="spiritual-authority fade-on-scroll">
+      <svg class="spiritual-authority__pattern" aria-hidden="true" style="color:#ffffff;">
+        <rect width="100%" height="100%" fill="url(#scf-stars)" />
+      </svg>
+      <p class="spiritual-authority__label">SPIRITUAL AUTHORITY</p>
+      <p class="spiritual-authority__text">
+        The foundation operates under the esteemed guidance of
+        <em>Hazrat Mian Maroof Naqshbandi</em>, Sajjad e Nasheen of Astana
+        Maroola Sharief, esteemed son of <em>Hazrat Sufi Muhammad Siddique (R.A)</em>
+        of Pakistan.
+      </p>
+    </div>
+
+    <span class="role-label">TRUSTEES</span>
+    <div class="role-grid">
+      <div class="trustee-card fade-on-scroll">
+        <span class="role-badge">Trustee</span>
+        <p class="trustee-card__name">Muzaffar Khan</p>
+        <a class="tap-call" href="tel:+27827981652">
+          <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M3 3 a1 1 0 0 1 1 -1 H6 L7.5 5 L6 6.5 a8 8 0 0 0 3.5 3.5 L11 8.5 L14 10 v2 a1 1 0 0 1 -1 1 A11 11 0 0 1 3 3 Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
+          </svg>
+          082 798 1652
+        </a>
+      </div>
+      <div class="trustee-card fade-on-scroll">
+        <span class="role-badge">Trustee</span>
+        <p class="trustee-card__name">Mohamed Nahin Moosa</p>
+        <a class="tap-call" href="tel:+27764787766">
+          <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M3 3 a1 1 0 0 1 1 -1 H6 L7.5 5 L6 6.5 a8 8 0 0 0 3.5 3.5 L11 8.5 L14 10 v2 a1 1 0 0 1 -1 1 A11 11 0 0 1 3 3 Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
+          </svg>
+          076 478 7766
+        </a>
+      </div>
+      <div class="trustee-card fade-on-scroll">
+        <span class="role-badge">Trustee</span>
+        <p class="trustee-card__name">Muhammad Yaameen Khan</p>
+        <a class="tap-call" href="tel:+27712040444">
+          <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M3 3 a1 1 0 0 1 1 -1 H6 L7.5 5 L6 6.5 a8 8 0 0 0 3.5 3.5 L11 8.5 L14 10 v2 a1 1 0 0 1 -1 1 A11 11 0 0 1 3 3 Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
+          </svg>
+          071 204 0444
+        </a>
+      </div>
+    </div>
+
+    <span class="role-label">Ulama</span>
+    <div class="role-grid role-grid--aalims">
+      <div class="aalim-card fade-on-scroll">
+        <span class="role-badge">Principal Aalim</span>
+        <p class="aalim-card__name">Moulana Abdul Rahman Manziri</p>
+        <p class="aalim-card__title">Principal Aalim · Kwamathukuza Madressa</p>
+      </div>
+      <div class="aalim-card fade-on-scroll">
+        <span class="role-badge">Aalim</span>
+        <p class="aalim-card__name">Moulana Moosa Milanzi</p>
+        <p class="aalim-card__title">Aalim · Kwamathukuza Madressa</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ----------- hadith interlude ----------- -->
+<section class="scf-hadith" aria-label="Hadith on charity" data-screen-label="09 Hadith Interlude">
+  <div class="scf-hadith__inner">
+    <p class="scf-hadith__quote-1">
+      &ldquo;Give charity without delay, for it stands in the way of calamity.&rdquo;
+    </p>
+    <p class="scf-hadith__source-1">— Prophet Muhammad (Peace be upon Him) · Al-Tirmidhi</p>
+
+    <hr class="scf-hadith__divider" />
+
+    <p class="scf-hadith__quote-2">
+      &ldquo;The believer's shade on the Day of Resurrection will be his charity.&rdquo;
+    </p>
+    <p class="scf-hadith__source-2">— Al-Tirmidhi</p>
+  </div>
+</section>
+
+
+<!-- ----------- contact ----------- -->
+<section id="contact" class="scf-contact" data-screen-label="10 Contact">
+  <div class="section-container">
+    <h2 class="scf-contact__heading fade-on-scroll">Reach Us</h2>
+
+    <div class="scf-contact__grid">
+      <form
+        class="scf-contact__form"
+        action="mailto:info@mskandco.com"
+        method="POST"
+        enctype="text/plain"
+      >
+        <input type="text"  name="name"    placeholder="Your full name"      required />
+        <input type="email" name="email"   placeholder="Your email address"  required />
+        <select name="subject" required>
+          <option value="" disabled selected>Select a topic...</option>
+          <option>General Enquiry</option>
+          <option>Musjid Project</option>
+          <option>Kwamathukuza Madressa</option>
+          <option>Zakaat Query</option>
+          <option>Lillah Contribution</option>
+          <option>Media / Press</option>
+        </select>
+        <textarea name="message" rows="5" placeholder="Your message..." required></textarea>
+        <button type="submit" class="scf-contact__submit">Send Message</button>
+        <p class="scf-contact__privacy">🔒 Your details are not stored or shared.</p>
+      </form>
+
+      <aside class="scf-contact__details">
+        <div class="contact-detail">
+          <span class="contact-detail__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+              <path d="M12 22 s-7-7-7-13 a7 7 0 0 1 14 0 c0 6 -7 13 -7 13 Z"/>
+              <circle cx="12" cy="9" r="2.5"/>
+            </svg>
+          </span>
+          <div class="contact-detail__body">
+            <p class="contact-detail__label">Office</p>
+            <div class="contact-detail__lines">
+              <span class="contact-detail__line">34B Loxton Street</span>
+              <span class="contact-detail__line contact-detail__line--muted">Newcastle 2940, KwaZulu-Natal</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="contact-detail">
+          <span class="contact-detail__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+              <rect x="3" y="5" width="18" height="14" rx="2"/>
+              <path d="M3 7 L12 13 L21 7"/>
+            </svg>
+          </span>
+          <div class="contact-detail__body">
+            <p class="contact-detail__label">Email</p>
+            <div class="contact-detail__lines">
+              <a class="contact-detail__line" href="/cdn-cgi/l/email-protection#355c5b535a7558465e545b51565a1b565a58"><span class="__cf_email__" data-cfemail="6801060e0728051b0309060c0b07460b0705">[email&#160;protected]</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="contact-detail">
+          <span class="contact-detail__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+              <path d="M5 4 a2 2 0 0 1 2 -2 h2 l2 5 l-2.5 1.5 a11 11 0 0 0 5 5 L15 11 l5 2 v2 a2 2 0 0 1 -2 2 A16 16 0 0 1 5 4 Z"/>
+            </svg>
+          </span>
+          <div class="contact-detail__body">
+            <p class="contact-detail__label">Trustees</p>
+            <div class="contact-detail__lines">
+              <a class="contact-detail__line" href="tel:+27827981652">Muzaffar Khan · 082 798 1652</a>
+              <a class="contact-detail__line" href="tel:+27764787766">M Nahin Moosa · 076 478 7766</a>
+              <a class="contact-detail__line" href="tel:+27712040444">M Yaameen Khan · 071 204 0444</a>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+</main>
+
+
+<!-- ----------- footer ----------- -->
+<footer class="scf-footer" role="contentinfo" data-screen-label="11 Footer">
+  <svg class="scf-footer__pattern" aria-hidden="true" style="color:#ffffff;">
+    <rect width="100%" height="100%" fill="url(#scf-stars)" />
+  </svg>
+  <div class="section-container">
+    <div class="scf-footer__columns">
+      <div class="scf-footer__brand-col">
+        <svg width="52" height="52" viewBox="0 0 44 44" fill="none" aria-hidden="true">
+          <rect x="6" y="14" width="3" height="22" fill="#3EC9A7" />
+          <path d="M5 14 L10 14 L7.5 9 Z" fill="#3EC9A7" />
+          <path d="M14 36 V22 a8 8 0 0 1 16 0 V36 Z" stroke="#3EC9A7" stroke-width="2" fill="none" />
+          <path d="M14 22 a8 8 0 0 1 16 0" stroke="#3EC9A7" stroke-width="2" fill="none" />
+          <circle cx="22" cy="11" r="1.4" fill="#3EC9A7" />
+          <line x1="22" y1="9" x2="22" y2="13" stroke="#3EC9A7" stroke-width="1.2" />
+          <path d="M16 36 L28 36 L26 32 L18 32 Z" fill="#5B3A8A" />
+          <path d="M18 32 L26 32 L26 27 L22 28 L18 27 Z" fill="#FFFFFF" />
+          <line x1="22" y1="28" x2="22" y2="32" stroke="#5B3A8A" stroke-width="0.8" />
+          <line x1="34" y1="36" x2="40" y2="36" stroke="#3EC9A7" stroke-width="2" />
+        </svg>
+        <span class="scf-footer__brand">SIDDIQUE</span>
+        <span class="scf-footer__brand-sub">Charitable Foundation NPC</span>
+        <span class="scf-footer__brand-reg">Reg No: 2024/779233/08</span>
+      </div>
+
+      <div>
+        <p class="scf-footer__col-label">Navigation</p>
+        <ul class="scf-footer__links">
+          <li><a href="#home">Home</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#progress">Progress</a></li>
+          <li><a href="#madressa">Madressa</a></li>
+          <li><a href="#contribute">Contribute</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <p class="scf-footer__col-label">Contact</p>
+        <div class="scf-footer__contact">
+          <span class="scf-footer__contact-line">34B Loxton Street, Newcastle 2940</span>
+          <a href="/cdn-cgi/l/email-protection#640d0a020b2409170f050a00070b4a070b09"><span class="__cf_email__" data-cfemail="f39a9d959cb39e8098929d97909cdd909c9e">[email&#160;protected]</span></a>
+          <a href="tel:+27827981652">WhatsApp · 082 798 1652</a>
+        </div>
+      </div>
+
+      <div>
+        <p class="scf-footer__col-label">Support</p>
+        <div class="scf-footer__support-item">
+          <p class="scf-footer__support-title">Lillah — Musjid Project · …3586</p>
+          <p class="scf-footer__support-sub">FNB · Branch 210835</p>
+        </div>
+        <div class="scf-footer__support-item">
+          <p class="scf-footer__support-title">Zakaat — Madressa · …8445</p>
+          <p class="scf-footer__support-sub">FNB · Branch 210835</p>
+        </div>
+      </div>
+    </div>
+
+    <hr class="scf-footer__divider" />
+
+    <div class="scf-footer__bottom">
+      <span>© 2026 Siddique Charitable Foundation NPC. All rights reserved.</span>
+      <span>Developed by <a href="https://olideentech.co.za" target="_blank" rel="noopener">Olideen Technologies</a></span>
+    </div>
+
+    <p class="scf-footer__duaa">
+      May Allah (SWT) reward you and your family abundantly for your generosity and support. Ameen.
+    </p>
+  </div>
+</footer>
+
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+/* -----------------------------------------------------------------
+   Siddique Charitable Foundation — interactions
+   Olideen Technologies · vanilla JS · GSAP 3.12 with ScrollTrigger
+   ----------------------------------------------------------------- */
+
+(function () {
+  'use strict';
+
+  // — nav
+  const scfNav      = document.querySelector('.scf-nav');
+  const navToggle   = document.querySelector('.scf-nav__toggle');
+  const navOverlay  = document.querySelector('.scf-nav__overlay');
+  const navOverlayClose = document.querySelector('.scf-nav__overlay-close');
+
+  // — donation tiers
+  const tierBtns    = document.querySelectorAll('.tier-btn');
+  const customInputs = document.querySelectorAll('.custom-amount-input');
+
+  // — copy buttons
+  const copyBtns    = document.querySelectorAll('.copy-account');
+
+  // — progress
+  const progressFill  = document.querySelector('.progress-fill');
+  const progressBadge = document.querySelector('.progress-badge');
+  const progressRail  = document.querySelector('.progress-rail');
+
+  // — counters
+  const raisedCounter    = document.querySelector('.counter--raised');
+  const remainingCounter = document.querySelector('.counter--remaining');
+
+  // — CTAs and flash
+  const contribCtas       = document.querySelectorAll('.contrib-cta');
+  const madressaCta       = document.querySelector('.madressa-contribute-btn');
+
+  /* ----------- nav scroll background ----------- */
+  // flip the nav background once hero scrolls past
+  function handleNavScroll() {
+    if (window.scrollY > 80) {
+      scfNav.classList.add('scf-nav--scrolled');
+    } else {
+      scfNav.classList.remove('scf-nav--scrolled');
+    }
+  }
+  window.addEventListener('scroll', handleNavScroll, { passive: true });
+  handleNavScroll();
+
+  /* ----------- mobile nav overlay ----------- */
+  function setOverlay(open) {
+    navOverlay.classList.toggle('is-open', open);
+    navToggle.setAttribute('aria-expanded', String(open));
+    // prevent body scroll when overlay is open
+    document.body.style.overflow = open ? 'hidden' : '';
+  }
+
+  navToggle.addEventListener('click', () => {
+    const isOpen = navOverlay.classList.contains('is-open');
+    setOverlay(!isOpen);
+  });
+
+  if (navOverlayClose) {
+    navOverlayClose.addEventListener('click', () => setOverlay(false));
+  }
+
+  // close overlay when a nav link inside it is clicked
+  navOverlay.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => setOverlay(false));
+  });
+
+  /* ----------- donation tier select ----------- */
+  function handleTierSelect(e) {
+    const btn  = e.currentTarget;
+    const card = btn.closest('.contrib-card');
+    // deselect all in this card
+    card.querySelectorAll('.tier-btn').forEach(b =>
+      b.classList.remove('tier-btn--selected')
+    );
+    btn.classList.add('tier-btn--selected');
+    // clear custom input in same card
+    const customInput = card.querySelector('.custom-amount-input');
+    if (customInput) customInput.value = '';
+  }
+
+  tierBtns.forEach(btn => btn.addEventListener('click', handleTierSelect));
+
+  // deselect presets when custom input is used
+  customInputs.forEach(input => {
+    input.addEventListener('input', () => {
+      const card = input.closest('.contrib-card');
+      card.querySelectorAll('.tier-btn').forEach(b =>
+        b.classList.remove('tier-btn--selected')
+      );
+    });
+  });
+
+  /* ----------- copy account number ----------- */
+  copyBtns.forEach(btn => {
+    btn.addEventListener('click', async () => {
+      const number = btn.dataset.account;
+      const original = btn.innerHTML;
+      try {
+        await navigator.clipboard.writeText(number);
+      } catch {
+        // fallback for older browsers / insecure contexts
+        const ta = document.createElement('textarea');
+        ta.value = number;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        try { document.execCommand('copy'); } catch (_) {}
+        document.body.removeChild(ta);
+      }
+      btn.innerHTML = '✓ Copied';
+      btn.style.color = 'var(--clr-mint-muted)';
+      btn.style.borderColor = 'var(--clr-mint)';
+      setTimeout(() => {
+        btn.innerHTML = original;
+        btn.style.color = '';
+        btn.style.borderColor = '';
+      }, 2000);
+    });
+  });
+
+  /* ----------- contribute CTA — flash bank details ----------- */
+  contribCtas.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const targetSel = btn.dataset.flashTarget;
+      if (!targetSel) return;
+      const target = document.querySelector(targetSel);
+      if (!target) return;
+      target.classList.add('bank-details--flash');
+      target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      setTimeout(() => target.classList.remove('bank-details--flash'), 1600);
+    });
+  });
+
+  /* ----------- madressa CTA → highlight zakaat card ----------- */
+  // smooth scroll then briefly ring the zakaat card so the eye lands right
+  function highlightZakaatCard() {
+    const zakaatCard = document.querySelector('.contrib-card--zakaat');
+    if (!zakaatCard) return;
+    zakaatCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    zakaatCard.style.transition = 'box-shadow 0.4s ease';
+    zakaatCard.style.boxShadow  = '0 0 0 3px var(--clr-mint), 0 8px 32px rgba(45,27,94,0.18)';
+    setTimeout(() => { zakaatCard.style.boxShadow = ''; }, 1600);
+  }
+
+  if (madressaCta) {
+    madressaCta.addEventListener('click', (e) => {
+      e.preventDefault();
+      highlightZakaatCard();
+    });
+  }
+
+  /* ----------- gsap scroll triggers ----------- */
+  function initScrollTriggers() {
+    gsap.registerPlugin(ScrollTrigger);
+
+    // hero — fires once on load, staggered.
+    // drop .js-hidden *first* so gsap doesn't snapshot opacity:0 as the
+    // end state, then use fromTo to be explicit about the destination.
+    document.querySelectorAll('.js-hidden').forEach(el => el.classList.remove('js-hidden'));
+    gsap.fromTo('.hero-animate',
+      { y: 30, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        duration: 0.9,
+        stagger: 0.15,
+        ease: 'power3.out',
+        delay: 0.15
+      }
+    );
+
+    // section fade-ins
+    gsap.utils.toArray('.fade-on-scroll').forEach(el => {
+      gsap.from(el, {
+        y: 40,
+        opacity: 0,
+        duration: 0.8,
+        ease: 'power2.out',
+        scrollTrigger: {
+          trigger: el,
+          start: 'top 85%',
+          toggleActions: 'play none none none'
+        }
+      });
+    });
+
+    // progress bar — client updates targetPct + targetRaised here
+    if (progressFill && progressRail) {
+      const goalAmount   = 4000000;
+      const targetPct    = 0;    // placeholder: client updates this
+      const targetRaised = 0;    // placeholder: client updates this
+      const targetRemaining = goalAmount - targetRaised;
+
+      ScrollTrigger.create({
+        trigger: progressRail,
+        start: 'top 80%',
+        once: true,
+        onEnter: () => {
+          // animate the fill width
+          gsap.to(progressFill, {
+            width: targetPct + '%',
+            duration: 1.8,
+            ease: 'power2.inOut',
+            onUpdate: function () {
+              const railW = progressRail.getBoundingClientRect().width;
+              const fillW = progressFill.getBoundingClientRect().width;
+              const pct   = Math.max(0, Math.round(fillW / railW * 100));
+              if (progressBadge) {
+                progressBadge.textContent = pct + '%';
+                // keep the badge riding the right edge of the fill
+                const railLeft = progressRail.getBoundingClientRect().left;
+                const fillRight = progressFill.getBoundingClientRect().right;
+                progressBadge.style.left = (fillRight - railLeft) + 'px';
+              }
+              progressRail.setAttribute('aria-valuenow', pct);
+            }
+          });
+
+          // raised counter — dummy object tween, cleaner than setInterval
+          if (raisedCounter) {
+            const proxy = { val: 0 };
+            gsap.to(proxy, {
+              val: targetRaised,
+              duration: 1.8,
+              ease: 'power2.inOut',
+              onUpdate: function () {
+                raisedCounter.textContent = 'R ' +
+                  Math.round(proxy.val).toLocaleString('en-ZA');
+              }
+            });
+          }
+
+          // remaining counter — counts DOWN from goal to remaining amount
+          if (remainingCounter) {
+            const remainingProxy = { val: goalAmount };
+            gsap.to(remainingProxy, {
+              val: targetRemaining,
+              duration: 1.8,
+              ease: 'power2.inOut',
+              onUpdate: function () {
+                remainingCounter.textContent = 'R ' +
+                  Math.round(remainingProxy.val).toLocaleString('en-ZA');
+              }
+            });
+          }
+        }
+      });
+
+      // also nudge the badge on resize so it doesn't drift
+      window.addEventListener('resize', () => {
+        const railW = progressRail.getBoundingClientRect().width;
+        const fillW = progressFill.getBoundingClientRect().width;
+        const railLeft = progressRail.getBoundingClientRect().left;
+        const fillRight = progressFill.getBoundingClientRect().right;
+        if (progressBadge) progressBadge.style.left = (fillRight - railLeft) + 'px';
+      }, { passive: true });
+    }
+
+    // timeline stagger
+    gsap.utils.toArray('.timeline-item').forEach((item, i) => {
+      gsap.from(item, {
+        x: -30,
+        opacity: 0,
+        duration: 0.6,
+        ease: 'power2.out',
+        scrollTrigger: {
+          trigger: item,
+          start: 'top 88%',
+          toggleActions: 'play none none none'
+        },
+        delay: (i % 6) * 0.06
+      });
+    });
+  }
+
+  /* ----------- bootstrap ----------- */
+  function ready() {
+    if (typeof gsap !== 'undefined') {
+      initScrollTriggers();
+    } else {
+      // gsap didn't load — reveal hero immediately so nothing stays invisible
+      document.querySelectorAll('.js-hidden').forEach(el => el.classList.remove('js-hidden'));
+    }
+  }
+
+  if (document.readyState === 'complete') {
+    ready();
+  } else {
+    window.addEventListener('load', ready);
+  }
+})();
+</script>
+</body>
+</html>
