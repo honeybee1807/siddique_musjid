@@ -658,7 +658,7 @@ p { margin: 0; }
   display: grid;
   grid-template-columns: 1fr;
   gap: 3rem;
-  margin-top: 1rem;
+  margin-top: 0;
 }
 .scf-musjid__body-text {
   font-family: var(--ff-body);
@@ -1579,10 +1579,12 @@ p { margin: 0; }
 .spiritual-authority__pattern {
   position: absolute;
   inset: 0;
+  width: 100%;
+  height: 100%;
   opacity: 0.06;
   pointer-events: none;
 }
-.spiritual-authority > * { position: relative; z-index: 1; }
+.spiritual-authority > *:not(.spiritual-authority__pattern) { position: relative; z-index: 1; }
 .spiritual-authority__label {
   font-family: var(--ff-body);
   font-weight: 600;
@@ -2289,6 +2291,7 @@ a.contact-detail__line:hover { color: var(--clr-mint); }
   .scf-musjid__body {
     grid-template-columns: 60fr 40fr;
     gap: 4rem;
+    align-items: start;
   }
   .scf-musjid__phases {
     flex-direction: row;
