@@ -165,7 +165,13 @@ p { margin: 0; }
   gap: 0.7rem;
   text-decoration: none;
 }
-.scf-nav__logo-mark { width: 40px; height: 40px; flex-shrink: 0; }
+.scf-nav__logo-img {
+  height: 44px;
+  width: auto;
+  object-fit: contain;
+  display: block;
+}
+
 .scf-nav__logo-text { display: flex; flex-direction: column; line-height: 1; }
 .scf-nav__brand {
   font-family: var(--ff-brand);
