@@ -953,17 +953,22 @@
         <p class="aalim-card__name">Moulana Abdul Rahman Manziri</p>
         <p class="aalim-card__title">Principal Aalim · Kwamathukuza Madressa</p>
       </div>
-      <div class="aalim-card fade-on-scroll">
-        <span class="role-badge">Aalim</span>
-        <p class="aalim-card__name">Moulana Moosa Milanzi</p>
-        <p class="aalim-card__title">Aalim · Kwamathukuza Madressa</p>
-      </div>
     </div>
   </div>
 </section>
 
 
 <!-- ----------- hadith interlude ----------- -->
+<style>
+  .scf-hadith {
+    padding: 3rem 0;
+  }
+  .scf-hadith__inner {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
+</style>
 <section class="scf-hadith" aria-label="Hadith on charity" data-screen-label="09 Hadith Interlude">
   <div class="scf-hadith__inner">
     <p class="scf-hadith__quote-1">
@@ -1000,9 +1005,8 @@
           <option>General Enquiry</option>
           <option>Musjid Project</option>
           <option>Kwamathukuza Madressa</option>
-          <option>Zakaat Query</option>
+          <option>Zakaat Contribution</option>
           <option>Lillah Contribution</option>
-          <option>Media / Press</option>
         </select>
         <textarea name="message" rows="5" placeholder="Your message..." required></textarea>
         <button type="submit" class="scf-contact__submit">Send Message</button>
@@ -1100,55 +1104,267 @@
 
 
 <!-- ----------- footer ----------- -->
+<style>
+  /* ── Footer reset & base ───────────────────────────── */
+  .scf-footer {
+    position: relative;
+    background: var(--clr-purple-dark);
+    padding: 3.5rem 0 0;
+    overflow: hidden;
+  }
+
+  .scf-footer__pattern {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.04;
+    pointer-events: none;
+  }
+
+  /* ── Inner container ───────────────────────────────── */
+  .scf-footer .section-container {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ── 5-column grid — mirrors EWC pattern ──────────── */
+  .scf-footer-container {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr 1fr 1fr 1fr;
+    gap: 2rem;
+    align-items: start;
+    padding-bottom: 2.5rem;
+  }
+
+  /* ── Column shared ─────────────────────────────────── */
+  .scf-footer-col {}
+
+  .scf-footer-col h3 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--clr-mint);
+    margin: 0 0 1rem;
+  }
+
+  /* ── Logo column ───────────────────────────────────── */
+  .scf-footer-col--logo {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .scf-footer-col--logo img {
+    width: 160px;
+    height: auto;
+    object-fit: contain;
+    margin-bottom: 0.25rem;
+  }
+
+  .scf-footer-col--logo p {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 300;
+    line-height: 1.65;
+    color: rgba(255, 255, 255, 0.55);
+    margin: 0;
+  }
+
+  .scf-footer-col--logo .scf-footer__reg {
+    font-size: 0.68rem;
+    color: rgba(255, 255, 255, 0.3);
+    letter-spacing: 0.04em;
+  }
+
+  /* ── Nav list ──────────────────────────────────────── */
+  .scf-footer-col ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+  }
+
+  .scf-footer-col ul li a {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.6);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .scf-footer-col ul li a:hover,
+  .scf-footer-col ul li a.active {
+    color: var(--clr-mint);
+  }
+
+  /* ── Contact lines ─────────────────────────────────── */
+  .scf-footer-col--contact p,
+  .scf-footer-col--contact a {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.6);
+    text-decoration: none;
+    margin: 0 0 0.55rem;
+    transition: color 0.2s ease;
+  }
+
+  .scf-footer-col--contact a:hover { color: var(--clr-mint); }
+
+  .scf-footer-col--contact svg {
+    flex-shrink: 0;
+    margin-top: 2px;
+    color: var(--clr-mint);
+  }
+
+  /* ── Banking / Support column ──────────────────────── */
+  .scf-footer-banking-item {
+    margin-bottom: 1rem;
+  }
+
+  .scf-footer-banking-item p {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.75);
+    margin: 0 0 0.2rem;
+  }
+
+  .scf-footer-banking-item span {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.73rem;
+    font-weight: 300;
+    color: rgba(255, 255, 255, 0.4);
+  }
+
+  /* ── Social icons ──────────────────────────────────── */
+  .scf-footer-social {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 0.25rem;
+  }
+
+  .scf-footer-social a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: rgba(255, 255, 255, 0.6);
+    text-decoration: none;
+    transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
+  }
+
+  .scf-footer-social a:hover {
+    border-color: var(--clr-mint);
+    color: var(--clr-mint);
+    background: rgba(62, 201, 167, 0.08);
+  }
+
+  /* ── Divider ───────────────────────────────────────── */
+  .scf-footer__divider {
+    border: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    margin: 0;
+  }
+
+  /* ── Bottom bar ────────────────────────────────────── */
+  .scf-footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.1rem 0;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .scf-footer-bottom span {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.73rem;
+    font-weight: 300;
+    color: rgba(255, 255, 255, 0.35);
+  }
+
+  .scf-footer-bottom .credit a {
+    color: var(--clr-mint);
+    text-decoration: none;
+    font-weight: 600;
+  }
+
+  .scf-footer-bottom .credit a:hover {
+    text-decoration: underline;
+  }
+
+  /* ── Duaa line ─────────────────────────────────────── */
+  .scf-footer-duaa {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 0.88rem;
+    color: rgba(255, 255, 255, 0.25);
+    text-align: center;
+    padding: 0.6rem 0 1.4rem;
+    margin: 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  /* ── Responsive ────────────────────────────────────── */
+  @media (max-width: 1024px) {
+    .scf-footer-container {
+      grid-template-columns: repeat(3, 1fr);
+    }
+    .scf-footer-col--logo {
+      grid-column: 1 / -1;
+    }
+    .scf-footer-col--logo img { width: 140px; }
+  }
+
+  @media (max-width: 640px) {
+    .scf-footer-container {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .scf-footer-col--logo {
+      grid-column: 1 / -1;
+    }
+  }
+
+  @media (max-width: 400px) {
+    .scf-footer-container { grid-template-columns: 1fr; }
+    .scf-footer-bottom { flex-direction: column; text-align: center; }
+  }
+</style>
+
+<!-- ----------- footer ----------- -->
 <footer class="scf-footer" role="contentinfo" data-screen-label="11 Footer">
   <svg class="scf-footer__pattern" aria-hidden="true" style="color:#ffffff;">
     <rect width="100%" height="100%" fill="url(#scf-stars)" />
   </svg>
+
   <div class="section-container">
-    <div class="scf-footer__columns">
-      <div class="scf-footer__brand-col">
-        <svg width="52" height="52" viewBox="0 0 44 44" fill="none" aria-hidden="true">
-          <rect x="6" y="14" width="3" height="22" fill="#3EC9A7" />
-          <path d="M5 14 L10 14 L7.5 9 Z" fill="#3EC9A7" />
-          <path d="M14 36 V22 a8 8 0 0 1 16 0 V36 Z" stroke="#3EC9A7" stroke-width="2" fill="none" />
-          <path d="M14 22 a8 8 0 0 1 16 0" stroke="#3EC9A7" stroke-width="2" fill="none" />
-          <circle cx="22" cy="11" r="1.4" fill="#3EC9A7" />
-          <line x1="22" y1="9" x2="22" y2="13" stroke="#3EC9A7" stroke-width="1.2" />
-          <path d="M16 36 L28 36 L26 32 L18 32 Z" fill="#5B3A8A" />
-          <path d="M18 32 L26 32 L26 27 L22 28 L18 27 Z" fill="#FFFFFF" />
-          <line x1="22" y1="28" x2="22" y2="32" stroke="#5B3A8A" stroke-width="0.8" />
-          <line x1="34" y1="36" x2="40" y2="36" stroke="#3EC9A7" stroke-width="2" />
-        </svg>
-        <span class="scf-footer__brand">SIDDIQUE</span>
-        <span class="scf-footer__brand-sub">Charitable Foundation NPC</span>
-        <span class="scf-footer__brand-reg">Reg No: 2024/779233/08</span>
-        <!-- social icons in footer -->
-        <p class="scf-footer__col-label" style="margin-top:1.25rem;">Follow Us</p>
-        <div class="scf-footer__social">
-          <a class="scf-footer__social-link" href="https://www.instagram.com/siddiquefoundation" target="_blank" rel="noopener" aria-label="Instagram">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="16" height="16">
-              <rect x="2" y="2" width="20" height="20" rx="5"/>
-              <circle cx="12" cy="12" r="5"/>
-              <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
-            </svg>
-          </a>
-          <a class="scf-footer__social-link" href="https://www.facebook.com/siddiquefoundation" target="_blank" rel="noopener" aria-label="Facebook">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="16" height="16">
-              <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
-            </svg>
-          </a>
-          <a class="scf-footer__social-link" href="https://wa.me/27827981652" target="_blank" rel="noopener" aria-label="WhatsApp">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="16" height="16">
-              <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
-            </svg>
-          </a>
-        </div>
+    <div class="scf-footer-container">
+
+      <!-- Logo + tagline -->
+      <div class="scf-footer-col scf-footer-col--logo">
+        <img src="website_logo.png" alt="Siddique Charitable Foundation NPC" width="160" height="44" />
+        <p>Building a Musjid and running the Kwamathukuza Madressa — serving Newcastle, KwaZulu-Natal through faith, education, and community.</p>
+        <span class="scf-footer__reg">NPC Reg No: 2024/779233/08</span>
       </div>
 
-      <div>
-        <p class="scf-footer__col-label">Navigation</p>
-        <ul class="scf-footer__links">
-          <li><a href="#home">Home</a></li>
+      <!-- Navigation -->
+      <div class="scf-footer-col">
+        <h3>Navigation</h3>
+        <ul>
+          <li><a href="#home" class="active">Home</a></li>
           <li><a href="#about">About</a></li>
           <li><a href="#projects">Projects</a></li>
           <li><a href="#progress">Progress</a></li>
@@ -1158,38 +1374,76 @@
         </ul>
       </div>
 
-      <div>
-        <p class="scf-footer__col-label">Contact</p>
-        <div class="scf-footer__contact">
-          <span class="scf-footer__contact-line">34B Loxton Street, Newcastle 2940</span>
-          <a href="mailto:info@mskandco.com">info@mskandco.com</a>
-          <a href="tel:+27827981652">WhatsApp · 082 798 1652</a>
+      <!-- Contact -->
+      <div class="scf-footer-col scf-footer-col--contact">
+        <h3>Contact</h3>
+        <p>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="14" height="14" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 1 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          34B Loxton Street, Newcastle 2940
+        </p>
+        <a href="mailto:info@mskandco.com">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="14" height="14" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          info@mskandco.com
+        </a>
+        <a href="https://wa.me/27827981652" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="14" height="14" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+          082 798 1652
+        </a>
+      </div>
+
+      <!-- Banking -->
+      <div class="scf-footer-col">
+        <h3>Support</h3>
+        <div class="scf-footer-banking-item">
+          <p>Lillah — Musjid</p>
+          <span>FNB · Acc …3586 · Branch 210835</span>
+        </div>
+        <div class="scf-footer-banking-item">
+          <p>Zakaat — Madressa</p>
+          <span>FNB · Acc …8445 · Branch 210835</span>
         </div>
       </div>
 
-      <div>
-        <p class="scf-footer__col-label">Support</p>
-        <div class="scf-footer__support-item">
-          <p class="scf-footer__support-title">Lillah — Musjid Project · …3586</p>
-          <p class="scf-footer__support-sub">FNB · Branch 210835</p>
-        </div>
-        <div class="scf-footer__support-item">
-          <p class="scf-footer__support-title">Zakaat — Madressa · …8445</p>
-          <p class="scf-footer__support-sub">FNB · Branch 210835</p>
+      <!-- Follow Us -->
+      <div class="scf-footer-col">
+        <h3>Follow Us</h3>
+        <div class="scf-footer-social">
+          <!-- Instagram -->
+          <a href="https://www.instagram.com/siddiquefoundation" target="_blank" rel="noopener" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="16" height="16">
+              <rect x="2" y="2" width="20" height="20" rx="5"/>
+              <circle cx="12" cy="12" r="5"/>
+              <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
+            </svg>
+          </a>
+          <!-- Facebook -->
+          <a href="https://www.facebook.com/siddiquefoundation" target="_blank" rel="noopener" aria-label="Facebook">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="16" height="16">
+              <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+            </svg>
+          </a>
+          <!-- WhatsApp -->
+          <a href="https://wa.me/27827981652" target="_blank" rel="noopener" aria-label="WhatsApp">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="16" height="16">
+              <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+            </svg>
+          </a>
         </div>
       </div>
-    </div>
+
+    </div><!-- /scf-footer-container -->
 
     <hr class="scf-footer__divider" />
 
-    <div class="scf-footer__bottom">
+    <div class="scf-footer-bottom">
       <span>© 2026 Siddique Charitable Foundation NPC. All rights reserved.</span>
-      <span>Developed by <a href="https://olideentech.co.za" target="_blank" rel="noopener">Olideen Technologies</a></span>
+      <span class="credit">Developed by <a href="https://olideentech.co.za" target="_blank" rel="noopener">Olideen Technologies</a></span>
     </div>
 
-    <p class="scf-footer__duaa">
+    <p class="scf-footer-duaa">
       May Allah (SWT) reward you and your family abundantly for your generosity and support. Ameen.
     </p>
+
   </div>
 </footer>
 
